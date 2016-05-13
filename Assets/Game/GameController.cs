@@ -48,6 +48,48 @@ public class GameController : MonoBehaviour {
         _pool.ReplaceTurnPhase(NetherWars.TurnPhase.eTurnPhase.End);
     }
 
+    private void PlayFirstCardAsResource()
+    {
+        Entity activePlayer = _pool.activePlayerEntity;
+
+        Entity[] cardsInHands = _pool.GetEntities(Matcher.AllOf(Matcher.Card, Matcher.Hand, Matcher.Controller));
+
+        Entity firstCardInhand = null;
+        for (int i=0; i< cardsInHands.Length; i++)
+        {
+            if (cardsInHands[i].controller.Id == activePlayer.player.Id)
+            {
+                firstCardInhand = cardsInHands[i];
+                break;
+            }
+        }
+
+        if (firstCardInhand != null)
+        {
+            if (activePlayer.isPlayedResource)
+            {
+                Debug.LogError("Player already played resource this turn!");
+            }
+            else
+            {
+                firstCardInhand.isHand = false;
+
+                firstCardInhand.isResource = true;
+
+                activePlayer.isPlayedResource = true;
+            }
+           
+        }
+        else
+        {
+            Debug.LogError("No more cards in hand");
+        }
+
+    }
+
+
+    private string actionString = "";
+
     void OnGUI()
     {
         GUILayout.BeginVertical();
@@ -55,6 +97,18 @@ public class GameController : MonoBehaviour {
         if (GUILayout.Button("End Turn"))
         {
             EndTurnAction();
+        }
+
+        if (GUILayout.Button("Play first card as resource"))
+        {
+            PlayFirstCardAsResource();
+        }
+
+        actionString = GUILayout.TextField(actionString);
+
+        if (GUILayout.Button("Execute Action"))
+        {
+            NetherWars.ActionResolver.ExecuteAction(actionString);
         }
 
         GUILayout.EndVertical();
