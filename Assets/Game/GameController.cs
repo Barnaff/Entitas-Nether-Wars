@@ -90,6 +90,7 @@ public class GameController : MonoBehaviour {
 
     private string actionString = "";
 
+    /*
     void OnGUI()
     {
         GUILayout.BeginVertical();
@@ -113,4 +114,5 @@ public class GameController : MonoBehaviour {
 
         GUILayout.EndVertical();
     }
+    */
 }
