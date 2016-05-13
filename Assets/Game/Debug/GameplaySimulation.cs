@@ -17,7 +17,6 @@ public class GameplaySimulation : MonoBehaviour {
 
 
 
-
     void OnGUI()
     {
         Entity currentPlayer = Pools.pool.activePlayerEntity;
@@ -59,7 +58,7 @@ public class GameplaySimulation : MonoBehaviour {
 
             if (GUILayout.Button("Cast"))
             {
-
+                CastCard(cardsInPlayerHands[i]);
             }
 
             if (GUILayout.Button("Resource"))
@@ -99,9 +98,9 @@ public class GameplaySimulation : MonoBehaviour {
         }
     }
 
-    private void CaesCard(Entity card)
+    private void CastCard(Entity card)
     {
-
+        
     }
 
     #endregion
