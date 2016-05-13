@@ -17,8 +17,8 @@ namespace NetherWars
         {
             // create players and deal cards
             List<Entity> players = new List<Entity>();
-            players.Add(CreatePlayer(1, "player 1", new string[10] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
-            players.Add(CreatePlayer(2, "player 2", new string[10] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
+            players.Add(CreatePlayer(1, "player 1", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" , "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
+            players.Add(CreatePlayer(2, "player 2", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
 
             // pick the first player
             Random random = new Random();
@@ -40,6 +40,12 @@ namespace NetherWars
             {
                 _pool.CreateEntity().AddCard(cardsInDeck[i]).AddController(playerId).IsDeck(true);
             }
+
+            // add mana pool to the player
+            player.AddManaPool(0, 0);
+
+            // make sure he can play a resource card
+            player.isPlayedResource = false;
 
             // make the player draw 5 cards
             player.AddDraw(5);

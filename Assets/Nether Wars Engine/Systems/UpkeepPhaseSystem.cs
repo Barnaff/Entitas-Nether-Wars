@@ -22,8 +22,10 @@ namespace NetherWars
         {
             if (_pool.turnPhase.Phase == TurnPhase.eTurnPhase.Upkeep)
             {
+                Entity currentPlayer = _pool.activePlayerEntity;
+
                 // get the current player's turn id
-                int currentPlayerTurnId = _pool.activePlayerEntity.player.Id;
+                int currentPlayerTurnId = currentPlayer.player.Id;
 
                 // untap all that player cards
                 foreach (Entity e in _group.GetEntities())
@@ -36,6 +38,10 @@ namespace NetherWars
 
                     // do any upkeep stuff
                 }
+
+
+                // reset the resource played per turn for the player.
+                currentPlayer.isPlayedResource = false;
 
                 // go to the next phase
                 _pool.ReplaceTurnPhase(_pool.turnPhase.Phase + 1);
