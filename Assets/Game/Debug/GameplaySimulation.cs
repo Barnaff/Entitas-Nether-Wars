@@ -52,9 +52,16 @@ public class GameplaySimulation : MonoBehaviour {
 
         for (int i =0; i < cardsInPlayerHands.Count; i++)
         {
+            if (cardsInPlayerHands[i].isPlayable)
+            {
+                GUI.color = Color.green;
+            }
+
             GUILayout.BeginVertical("Box");
 
             GUILayout.Label("Card " + cardsInPlayerHands[i].card.CardID);
+
+            GUILayout.Label("Cost " + cardsInPlayerHands[i].manaCost.Value);
 
             if (GUILayout.Button("Cast"))
             {
@@ -65,6 +72,8 @@ public class GameplaySimulation : MonoBehaviour {
             {
                 PlayAsResource(cardsInPlayerHands[i]);
             }
+
+            GUI.color = Color.white;
 
             GUILayout.EndVertical();
         }
@@ -100,7 +109,11 @@ public class GameplaySimulation : MonoBehaviour {
 
     private void CastCard(Entity card)
     {
-        
+        if (card.isPlayable)
+        {
+            card.isHand = false;
+            card.isBattlefield = true;
+        }
     }
 
     #endregion

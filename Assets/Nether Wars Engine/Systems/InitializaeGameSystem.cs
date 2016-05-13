@@ -8,6 +8,8 @@ namespace NetherWars
     {
         private Pool _pool;
 
+        Random _random;
+
         public void SetPool(Pool pool)
         {
             _pool = pool;
@@ -17,14 +19,16 @@ namespace NetherWars
         {
             Logger.LogMessage("Initialize match");
 
+            // generate random seed
+            _random = new Random();
+
             // create players and deal cards
             List<Entity> players = new List<Entity>();
             players.Add(CreatePlayer(1, "player 1", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" , "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
             players.Add(CreatePlayer(2, "player 2", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
 
             // pick the first player
-            Random random = new Random();
-            int randomIndex = random.Next(players.Count);
+            int randomIndex = _random.Next(players.Count);
             Entity randomPlayer = players[randomIndex];
             randomPlayer.isActivePlayer = true;
 
@@ -43,10 +47,12 @@ namespace NetherWars
 
             Entity player = _pool.CreateEntity().AddPlayer(playerId, playerName).AddHealth(20, 20);
   
+            
+
             // put all the player's cards in his deck and mark them as his.
             for (int i=0; i< cardsInDeck.Length; i++)
             {
-                _pool.CreateEntity().AddCard(cardsInDeck[i]).AddController(playerId).IsDeck(true);
+                _pool.CreateEntity().AddCard(cardsInDeck[i]).AddController(playerId).IsDeck(true).AddManaCost(_random.Next(3) + 1);
             }
 
             // add mana pool to the player
