@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour {
         {
             if (activePlayer.isPlayedResource)
             {
-                Debug.LogError("Player already played resource this turn!");
+                Debug.LogWarning("Player already played resource this turn!");
             }
             else
             {

@@ -28,6 +28,8 @@ namespace NetherWars
                     player.isActivePlayer = !player.isActivePlayer;
                 }
 
+                Logger.LogAction("Pass Turn");
+
                 // go to the next phase
                 _pool.ReplaceTurnPhase(TurnPhase.eTurnPhase.Upkeep);
             }

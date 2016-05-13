@@ -26,10 +26,14 @@ namespace NetherWars
                 if (_pool.activePlayerEntity.hasDraw)
                 {
                     _pool.activePlayerEntity.ReplaceDraw(_pool.activePlayerEntity.draw.CardsToDraw + 1);
+
+                    Logger.LogAction("add draw " + (_pool.activePlayerEntity.draw.CardsToDraw + 1));
                 }
                 else
                 {
                     _pool.activePlayerEntity.AddDraw(1);
+
+                    Logger.LogAction("add draw 1");
                 }
 
                 // go to the next phase

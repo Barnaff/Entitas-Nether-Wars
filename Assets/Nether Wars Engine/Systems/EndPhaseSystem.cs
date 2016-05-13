@@ -23,6 +23,7 @@ namespace NetherWars
             if (_pool.turnPhase.Phase == TurnPhase.eTurnPhase.End)
             {
                 // end the turn.
+                Logger.LogEvent("End Turn");
 
                 // do cleanup and other end phase stuff
 

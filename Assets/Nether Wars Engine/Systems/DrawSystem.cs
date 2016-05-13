@@ -49,9 +49,12 @@ namespace NetherWars
             {
                 if (playerCards.Count > 0)
                 {
+                    Logger.LogEvent("draw card: " + playerCards[0].card.CardID);
+
                     playerCards[0].isDeck = false;
                     playerCards[0].isHand = true;
                     playerCards.RemoveAt(0);
+    
                 }
             }
 

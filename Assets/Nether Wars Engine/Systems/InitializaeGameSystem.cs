@@ -15,6 +15,8 @@ namespace NetherWars
 
         public void Initialize()
         {
+            Logger.LogMessage("Initialize match");
+
             // create players and deal cards
             List<Entity> players = new List<Entity>();
             players.Add(CreatePlayer(1, "player 1", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" , "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
@@ -26,13 +28,19 @@ namespace NetherWars
             Entity randomPlayer = players[randomIndex];
             randomPlayer.isActivePlayer = true;
 
+            Logger.LogAction("seelct starting player: " + randomPlayer.player.Id);
+
             // set the turn phase
             _pool.CreateEntity().AddTurnPhase(TurnPhase.eTurnPhase.Upkeep).AddTurnCount(0);
+
+            Logger.LogAction("start the match");
         }
 
 
         private Entity CreatePlayer(int playerId, string playerName, string[] cardsInDeck)
         {
+            Logger.LogMessage("Create Player " + playerId);
+
             Entity player = _pool.CreateEntity().AddPlayer(playerId, playerName).AddHealth(20, 20);
   
             // put all the player's cards in his deck and mark them as his.
