@@ -36,50 +36,49 @@ public class GameplaySimulation : MonoBehaviour {
         GUILayout.EndHorizontal();
 
 
-        GUILayout.BeginHorizontal("Box");
-
+        Entity[] players = Pools.pool.GetEntities(Matcher.Player);
         Entity[] cardsInHand = Pools.pool.GetEntities(Matcher.AllOf(Matcher.Hand, Matcher.Card, Matcher.Controller));
 
-        List<Entity> cardsInPlayerHands = new List<Entity>();
-
-        for (int i=0; i < cardsInHand.Length; i++)
+        foreach (Entity playerEntity in players)
         {
-            if (cardsInHand[i].controller.Id == currentPlayer.player.Id)
+            GUILayout.BeginHorizontal("Box");
+
+            for (int i = 0; i < cardsInHand.Length; i++)
             {
-                cardsInPlayerHands.Add(cardsInHand[i]);
+                if (cardsInHand[i].controller.Id == playerEntity.player.Id)
+                {
+                    if (cardsInHand[i].isPlayable)
+                    {
+                        GUI.color = Color.green;
+                    }
+
+                    GUILayout.BeginVertical("Box");
+
+                    GUILayout.Label("Card " + cardsInHand[i].card.CardID);
+
+                    GUILayout.Label("Cost " + cardsInHand[i].manaCost.Value);
+
+                    if (currentPlayer == playerEntity)
+                    {
+                        if (GUILayout.Button("Cast"))
+                        {
+                            CastCard(cardsInHand[i]);
+                        }
+
+                        if (GUILayout.Button("Resource"))
+                        {
+                            PlayAsResource(cardsInHand[i]);
+                        }
+                    }
+
+                    GUI.color = Color.white;
+
+                    GUILayout.EndVertical();
+                }
             }
+
+            GUILayout.EndHorizontal();
         }
-
-        for (int i =0; i < cardsInPlayerHands.Count; i++)
-        {
-            if (cardsInPlayerHands[i].isPlayable)
-            {
-                GUI.color = Color.green;
-            }
-
-            GUILayout.BeginVertical("Box");
-
-            GUILayout.Label("Card " + cardsInPlayerHands[i].card.CardID);
-
-            GUILayout.Label("Cost " + cardsInPlayerHands[i].manaCost.Value);
-
-            if (GUILayout.Button("Cast"))
-            {
-                CastCard(cardsInPlayerHands[i]);
-            }
-
-            if (GUILayout.Button("Resource"))
-            {
-                PlayAsResource(cardsInPlayerHands[i]);
-            }
-
-            GUI.color = Color.white;
-
-            GUILayout.EndVertical();
-        }
-
-        GUILayout.EndHorizontal();
-
 
         GUILayout.EndVertical();
     }
