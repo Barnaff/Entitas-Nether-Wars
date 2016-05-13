@@ -113,6 +113,10 @@ public class GameplaySimulation : MonoBehaviour {
         {
             card.isHand = false;
             card.isBattlefield = true;
+
+            Entity player = Pools.pool.activePlayerEntity;
+
+            player.ReplaceManaPool(player.manaPool.CurrentMana - card.manaCost.Value, player.manaPool.MaxMana);
         }
     }
 

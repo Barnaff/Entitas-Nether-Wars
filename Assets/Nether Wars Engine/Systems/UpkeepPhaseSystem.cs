@@ -45,7 +45,7 @@ namespace NetherWars
 
                 // reset the resource played per turn for the player.
                 currentPlayer.isPlayedResource = false;
-                currentPlayer.manaPool.CurrentMana = currentPlayer.manaPool.MaxMana;
+                currentPlayer.ReplaceManaPool(currentPlayer.manaPool.MaxMana, currentPlayer.manaPool.MaxMana);
 
                 Logger.LogAction("reset player " + currentPlayer.player.Id + " resources pool");
 
