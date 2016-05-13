@@ -15,16 +15,17 @@ public static class ComponentIds {
     public const int Draw = 5;
     public const int Hand = 6;
     public const int Health = 7;
-    public const int ManaPool = 8;
-    public const int Playable = 9;
-    public const int PlayedResource = 10;
-    public const int Player = 11;
-    public const int Resource = 12;
-    public const int Tapped = 13;
-    public const int TurnCount = 14;
-    public const int TurnPhase = 15;
+    public const int ManaCost = 8;
+    public const int ManaPool = 9;
+    public const int Playable = 10;
+    public const int PlayedResource = 11;
+    public const int Player = 12;
+    public const int Resource = 13;
+    public const int Tapped = 14;
+    public const int TurnCount = 15;
+    public const int TurnPhase = 16;
 
-    public const int TotalComponents = 16;
+    public const int TotalComponents = 17;
 
     public static readonly string[] componentNames = {
         "ActivePlayer",
@@ -35,6 +36,7 @@ public static class ComponentIds {
         "Draw",
         "Hand",
         "Health",
+        "ManaCost",
         "ManaPool",
         "Playable",
         "PlayedResource",
@@ -54,6 +56,7 @@ public static class ComponentIds {
         typeof(NetherWars.Draw),
         typeof(NetherWars.Hand),
         typeof(NetherWars.Health),
+        typeof(NetherWars.ManaCost),
         typeof(NetherWars.ManaPool),
         typeof(NetherWars.Playable),
         typeof(NetherWars.PlayedResource),
