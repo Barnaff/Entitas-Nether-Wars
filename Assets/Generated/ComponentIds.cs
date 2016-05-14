@@ -11,31 +11,35 @@ public static class ComponentIds {
     public const int Battlefield = 1;
     public const int Card = 2;
     public const int Controller = 3;
-    public const int Deck = 4;
-    public const int Draw = 5;
-    public const int Hand = 6;
-    public const int Health = 7;
-    public const int ManaCost = 8;
-    public const int ManaPool = 9;
-    public const int Playable = 10;
-    public const int PlayedResource = 11;
-    public const int Player = 12;
-    public const int Resource = 13;
-    public const int Strength = 14;
-    public const int SummoningSickness = 15;
-    public const int Tapped = 16;
-    public const int TurnCount = 17;
-    public const int TurnPhase = 18;
+    public const int Damage = 4;
+    public const int Deck = 5;
+    public const int Draw = 6;
+    public const int Graveyard = 7;
+    public const int Hand = 8;
+    public const int Health = 9;
+    public const int ManaCost = 10;
+    public const int ManaPool = 11;
+    public const int Playable = 12;
+    public const int PlayedResource = 13;
+    public const int Player = 14;
+    public const int Resource = 15;
+    public const int Strength = 16;
+    public const int SummoningSickness = 17;
+    public const int Tapped = 18;
+    public const int TurnCount = 19;
+    public const int TurnPhase = 20;
 
-    public const int TotalComponents = 19;
+    public const int TotalComponents = 21;
 
     public static readonly string[] componentNames = {
         "ActivePlayer",
         "Battlefield",
         "Card",
         "Controller",
+        "Damage",
         "Deck",
         "Draw",
+        "Graveyard",
         "Hand",
         "Health",
         "ManaCost",
@@ -56,8 +60,10 @@ public static class ComponentIds {
         typeof(NetherWars.Battlefield),
         typeof(NetherWars.Card),
         typeof(NetherWars.Controller),
+        typeof(NetherWars.Damage),
         typeof(NetherWars.Deck),
         typeof(NetherWars.Draw),
+        typeof(NetherWars.Graveyard),
         typeof(NetherWars.Hand),
         typeof(NetherWars.Health),
         typeof(NetherWars.ManaCost),
