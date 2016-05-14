@@ -52,7 +52,15 @@ namespace NetherWars
             // put all the player's cards in his deck and mark them as his.
             for (int i=0; i< cardsInDeck.Length; i++)
             {
-                _pool.CreateEntity().AddCard(cardsInDeck[i]).AddController(playerId).IsDeck(true).AddManaCost(_random.Next(3) + 1);
+                int health = _random.Next(2) + 1;
+
+                _pool.CreateEntity()
+                    .AddCard(cardsInDeck[i])
+                    .AddController(playerId)
+                    .IsDeck(true)
+                    .AddManaCost(_random.Next(3) + 1)
+                    .AddStrength(_random.Next(2) + 1)
+                    .AddHealth(health, health);
             }
 
             // add mana pool to the player

@@ -42,7 +42,10 @@ public class GameController : MonoBehaviour {
             .Add(pool.CreateSystem<NetherWars.HealthSystem>())
         
             .Add(pool.CreateSystem<NetherWars.ManaPoolSystem>())
-            .Add(pool.CreateSystem<NetherWars.PlayableSystem>());
+            .Add(pool.CreateSystem<NetherWars.PlayableSystem>())
+
+            .Add(pool.CreateSystem<NetherWars.EnterBattlefieldSystem>());
+        
 
     }    
 

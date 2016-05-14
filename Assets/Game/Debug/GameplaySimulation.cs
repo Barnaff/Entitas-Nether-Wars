@@ -33,9 +33,17 @@ public class GameplaySimulation : MonoBehaviour {
 
         foreach (Entity playerEntity in players)
         {
+            if (playerEntity == currentPlayer)
+            {
+                GUI.skin.label.fontStyle = FontStyle.Bold;
+                GUI.color = Color.green;
+            }
+
             GUILayout.BeginVertical("Box");  // 3
 
             GUILayout.Label(playerEntity.player.Name + " Hand");
+
+            GUILayout.Label("Mana: " + playerEntity.manaPool.CurrentMana + "/" + playerEntity.manaPool.MaxMana);
 
             GUILayout.BeginHorizontal(); // 4
 
@@ -47,12 +55,18 @@ public class GameplaySimulation : MonoBehaviour {
                     {
                         GUI.color = Color.green;
                     }
+                    else
+                    {
+                        GUI.color = Color.white;
+                    }
 
                     GUILayout.BeginVertical("Box", GUILayout.Width(LAYOUT_CARD_WIDTH));
 
                     GUILayout.Label("Card " + cardsInHand[i].card.CardID);
 
                     GUILayout.Label("Cost " + cardsInHand[i].manaCost.Value);
+
+                    GUILayout.Label(cardsInHand[i].strength.Value + "/" + cardsInHand[i].health.Maxhealth);
 
                     if (currentPlayer == playerEntity)
                     {
@@ -67,10 +81,11 @@ public class GameplaySimulation : MonoBehaviour {
                         }
                     }
 
-                    GUI.color = Color.white;
-
                     GUILayout.EndVertical();
                 }
+
+                GUI.skin.label.fontStyle = FontStyle.Normal;
+                GUI.color = Color.white;
             }
 
             GUILayout.EndHorizontal(); // -4
@@ -81,11 +96,31 @@ public class GameplaySimulation : MonoBehaviour {
             {
                 if (cardsInBattlefield[i].controller.Id == playerEntity.player.Id)
                 {
+                    if (cardsInBattlefield[i].isSummoningSickness)
+                    {
+                        GUI.color = Color.magenta;
+                    }
+                    else
+                    {
+                        GUI.color = Color.white;
+                    }
+
                     GUILayout.BeginVertical("Box" , GUILayout.Width(LAYOUT_CARD_WIDTH));
 
                     GUILayout.Label("Card " + cardsInBattlefield[i].card.CardID);
 
+                    GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.CurrentHealth);
+
+                    if (cardsInBattlefield[i].isSummoningSickness)
+                    {
+                        if (GUILayout.Button("Attack"))
+                        {
+
+                        }
+                    }
+                    
                     GUILayout.EndVertical();
+
                 }
             }
 
@@ -128,6 +163,7 @@ public class GameplaySimulation : MonoBehaviour {
         {
             card.isHand = false;
             card.isBattlefield = true;
+            card.isPlayable = false;
 
             Entity player = Pools.pool.activePlayerEntity;
 

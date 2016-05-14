@@ -40,6 +40,13 @@ namespace NetherWars
                         Logger.LogAction("Untap " + e.card.CardID);
                     }
 
+                    if (e.isSummoningSickness &&  e.controller.Id == currentPlayerTurnId)
+                    {
+                        e.isSummoningSickness = false;
+
+                        Logger.LogAction("Clear Summoning Sickness " + e.card.CardID);
+                    }
+
                     // do any upkeep stuff
                 }
 
