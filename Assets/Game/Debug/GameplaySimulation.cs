@@ -138,7 +138,7 @@ public class GameplaySimulation : MonoBehaviour {
 
                     
 
-                    if (cardsInHand[i].controller.Id == playerEntity.player.Id && currentPlayer == playerEntity)
+                    if (cardsInBattlefield[i].controller.Id == playerEntity.player.Id && currentPlayer == playerEntity)
                     {
                         if (!cardsInBattlefield[i].isSummoningSickness)
                         {
