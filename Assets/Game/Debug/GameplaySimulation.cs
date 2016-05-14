@@ -5,25 +5,15 @@ using System.Collections.Generic;
 
 public class GameplaySimulation : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-
+    const int LAYOUT_CARD_WIDTH = 100;
 
     void OnGUI()
     {
         Entity currentPlayer = Pools.pool.activePlayerEntity;
 
-        GUILayout.BeginVertical();
+        GUILayout.BeginVertical(); // 1
 
-        GUILayout.BeginVertical("Box");
+        GUILayout.BeginHorizontal("Box"); // 2
 
         GUILayout.Label("Current Player: " + currentPlayer.player.Id + " : " + currentPlayer.player.Name);
 
@@ -33,15 +23,21 @@ public class GameplaySimulation : MonoBehaviour {
             EndTurn();
         }
 
-        GUILayout.EndHorizontal();
-
+        GUILayout.EndHorizontal(); // -2
 
         Entity[] players = Pools.pool.GetEntities(Matcher.Player);
+
         Entity[] cardsInHand = Pools.pool.GetEntities(Matcher.AllOf(Matcher.Hand, Matcher.Card, Matcher.Controller));
+
+        Entity[] cardsInBattlefield = Pools.pool.GetEntities(Matcher.AllOf(Matcher.Battlefield, Matcher.Card, Matcher.Controller));
 
         foreach (Entity playerEntity in players)
         {
-            GUILayout.BeginHorizontal("Box");
+            GUILayout.BeginVertical("Box");  // 3
+
+            GUILayout.Label(playerEntity.player.Name + " Hand");
+
+            GUILayout.BeginHorizontal(); // 4
 
             for (int i = 0; i < cardsInHand.Length; i++)
             {
@@ -52,7 +48,7 @@ public class GameplaySimulation : MonoBehaviour {
                         GUI.color = Color.green;
                     }
 
-                    GUILayout.BeginVertical("Box");
+                    GUILayout.BeginVertical("Box", GUILayout.Width(LAYOUT_CARD_WIDTH));
 
                     GUILayout.Label("Card " + cardsInHand[i].card.CardID);
 
@@ -77,10 +73,30 @@ public class GameplaySimulation : MonoBehaviour {
                 }
             }
 
-            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal(); // -4
+
+            GUILayout.BeginHorizontal(); // 5
+
+            for (int i = 0; i < cardsInBattlefield.Length; i++)
+            {
+                if (cardsInBattlefield[i].controller.Id == playerEntity.player.Id)
+                {
+                    GUILayout.BeginVertical("Box" , GUILayout.Width(LAYOUT_CARD_WIDTH));
+
+                    GUILayout.Label("Card " + cardsInBattlefield[i].card.CardID);
+
+                    GUILayout.EndVertical();
+                }
+            }
+
+            GUILayout.EndHorizontal();  // -5
+
+            GUILayout.EndVertical();  // -3
+
         }
 
-        GUILayout.EndVertical();
+        GUILayout.EndVertical(); // -1
+
     }
 
 
