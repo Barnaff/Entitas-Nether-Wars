@@ -126,7 +126,17 @@ public class GameplaySimulation : MonoBehaviour {
 
                     GUILayout.Label("Card " + cardsInBattlefield[i].card.CardID);
 
-                    GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.Value);
+                    if (cardsInBattlefield[i].hasDamage)
+                    {
+
+                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/<color=red>" + (cardsInBattlefield[i].health.Value - cardsInBattlefield[i].damage.Value + "</color>"));
+                    }
+                    else
+                    {
+                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.Value);
+                    }
+
+                    
 
                     if (cardsInHand[i].controller.Id == playerEntity.player.Id && currentPlayer == playerEntity)
                     {
@@ -226,9 +236,9 @@ public class GameplaySimulation : MonoBehaviour {
     {
         Debug.Log(attacker + " attacks " + target);
 
-        target.ReplaceHealth(target.health.Value - attacker.strength.Value);
+        target.AddDamage(attacker.strength.Value);
 
-        attacker.ReplaceHealth(attacker.health.Value - target.strength.Value);
+        attacker.AddDamage(target.strength.Value);
 
         attacker.isTapped = true;
 

@@ -4,22 +4,29 @@ using Entitas;
 
 namespace NetherWars
 {
-    public class HealthSystem : ISetPool, IInitializeSystem
+    public class HealthSystem :  IReactiveSystem
     {
-        Pool _pool;
-        Group _healthElements;
 
-      
+        public TriggerOnEvent trigger
+        {
+            get
+            {
+                return Matcher.AllOf(Matcher.Damage).OnEntityAddedOrRemoved();
+            }
+        }
 
         public void Execute(List<Entity> entities)
         {
             Console.Write("Update GameBoard");
 
-            foreach (Entity e in _healthElements.GetEntities())
+            foreach (Entity e in entities)
             {
-                if (e.health.Value <= 0)
+                if (e.hasDamage &&  e.health.Value <= e.damage.Value)
                 {
-                    Console.Write("entitiy " + e + " is dead");
+                    Logger.LogEvent("entitiy " + e + " is dead");
+
+                    e.isBattlefield = false;
+                    e.isGraveyard = true;
                 }
             }
         }
@@ -31,8 +38,7 @@ namespace NetherWars
 
         public void SetPool(Pool pool)
         {
-            _pool = pool;
-            _healthElements = _pool.GetGroup(Matcher.AllOf(Matcher.Health));
+           
         }
     }
 

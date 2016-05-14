@@ -22,9 +22,17 @@ namespace NetherWars
         {
             foreach (Entity entity in entities)
             {
-                Logger.LogEvent("Entered the battlefield: " + entity.ToString());
+                if (entity.isBattlefield)
+                {
+                    Logger.LogEvent("Entered the battlefield: " + entity.ToString());
 
-                entity.isSummoningSickness = true;
+                    entity.isSummoningSickness = true;
+                }
+                else
+                {
+                    Logger.LogEvent("Left the battlefield: " + entity.ToString());
+                }
+                
             }
         }
 
