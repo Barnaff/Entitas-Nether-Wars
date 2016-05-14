@@ -27,10 +27,9 @@ namespace NetherWars
 
         public void Execute(List<Entity> entities)
         {
-
             foreach (Entity entity in entities)
             {
-                Logger.LogMessage(entity.ToString());
+                Logger.LogEvent("Card played as resource: " + entity.ToString());
 
                 foreach (Entity playerEntity in _group.GetEntities())
                 {
