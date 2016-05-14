@@ -17,7 +17,7 @@ namespace NetherWars
 
             foreach (Entity e in _healthElements.GetEntities())
             {
-                if (e.health.CurrentHealth <= 0)
+                if (e.health.Value <= 0)
                 {
                     Console.Write("entitiy " + e + " is dead");
                 }

@@ -45,14 +45,13 @@ namespace NetherWars
         {
             Logger.LogMessage("Create Player " + playerId);
 
-            Entity player = _pool.CreateEntity().AddPlayer(playerId, playerName).AddHealth(20, 20);
+            Entity player = _pool.CreateEntity().AddPlayer(playerId, playerName).AddHealth(20);
   
             
 
             // put all the player's cards in his deck and mark them as his.
             for (int i=0; i< cardsInDeck.Length; i++)
             {
-                int health = _random.Next(2) + 1;
 
                 _pool.CreateEntity()
                     .AddCard(cardsInDeck[i])
@@ -60,7 +59,7 @@ namespace NetherWars
                     .IsDeck(true)
                     .AddManaCost(_random.Next(3) + 1)
                     .AddStrength(_random.Next(2) + 1)
-                    .AddHealth(health, health);
+                    .AddHealth(_random.Next(2) + 1);
             }
 
             // add mana pool to the player

@@ -7,6 +7,12 @@ public class GameplaySimulation : MonoBehaviour {
 
     const int LAYOUT_CARD_WIDTH = 100;
 
+    private bool isSelectingTarget;
+
+    private Entity attackingCard;
+
+
+
     void OnGUI()
     {
         Entity currentPlayer = Pools.pool.activePlayerEntity;
@@ -17,11 +23,22 @@ public class GameplaySimulation : MonoBehaviour {
 
         GUILayout.Label("Current Player: " + currentPlayer.player.Id + " : " + currentPlayer.player.Name);
 
-
-        if (GUILayout.Button("End Turn"))
+        if (isSelectingTarget)
         {
-            EndTurn();
+            if (GUILayout.Button("Cancel Attack"))
+            {
+                isSelectingTarget = false;
+                attackingCard = null;
+            }
         }
+        else
+        {
+            if (GUILayout.Button("End Turn"))
+            {
+                EndTurn();
+            }
+        }
+      
 
         GUILayout.EndHorizontal(); // -2
 
@@ -66,7 +83,7 @@ public class GameplaySimulation : MonoBehaviour {
 
                     GUILayout.Label("Cost " + cardsInHand[i].manaCost.Value);
 
-                    GUILayout.Label(cardsInHand[i].strength.Value + "/" + cardsInHand[i].health.Maxhealth);
+                    GUILayout.Label(cardsInHand[i].strength.Value + "/" + cardsInHand[i].health.Value);
 
                     if (currentPlayer == playerEntity)
                     {
@@ -109,15 +126,29 @@ public class GameplaySimulation : MonoBehaviour {
 
                     GUILayout.Label("Card " + cardsInBattlefield[i].card.CardID);
 
-                    GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.CurrentHealth);
+                    GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.Value);
 
-                    if (cardsInBattlefield[i].isSummoningSickness)
+                    if (cardsInHand[i].controller.Id == playerEntity.player.Id && currentPlayer == playerEntity)
                     {
-                        if (GUILayout.Button("Attack"))
+                        if (!cardsInBattlefield[i].isSummoningSickness)
                         {
-
+                            if (GUILayout.Button("Attack"))
+                            {
+                                AttackWithCard(cardsInBattlefield[i]);
+                            }
                         }
                     }
+                    else
+                    {
+                        if (isSelectingTarget)
+                        {
+                            if (GUILayout.Button("Target"))
+                            {
+                                SelectAttackingTarget(cardsInBattlefield[i]);
+                            }
+                        }
+                    }
+                   
                     
                     GUILayout.EndVertical();
 
@@ -169,6 +200,39 @@ public class GameplaySimulation : MonoBehaviour {
 
             player.ReplaceManaPool(player.manaPool.CurrentMana - card.manaCost.Value, player.manaPool.MaxMana);
         }
+    }
+
+    private void AttackWithCard(Entity card)
+    {
+        if (!card.isSummoningSickness && !card.isTapped)
+        {
+            attackingCard = card;
+            isSelectingTarget = true;
+        }
+        else
+        {
+            Debug.LogWarning("This card cannot attack now!");
+        }
+    }
+
+    private void SelectAttackingTarget(Entity card)
+    {
+        isSelectingTarget = false;
+
+        ResolveCombat(attackingCard, card);
+    }
+
+    private void ResolveCombat(Entity attacker, Entity target)
+    {
+        Debug.Log(attacker + " attacks " + target);
+
+        target.ReplaceHealth(target.health.Value - attacker.strength.Value);
+
+        attacker.ReplaceHealth(attacker.health.Value - target.strength.Value);
+
+        attacker.isTapped = true;
+
+        attackingCard = null;
     }
 
     #endregion

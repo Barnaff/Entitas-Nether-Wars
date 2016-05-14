@@ -12,17 +12,15 @@ namespace Entitas {
 
         public bool hasHealth { get { return HasComponent(ComponentIds.Health); } }
 
-        public Entity AddHealth(int newCurrentHealth, int newMaxhealth) {
+        public Entity AddHealth(int newValue) {
             var component = CreateComponent<NetherWars.Health>(ComponentIds.Health);
-            component.CurrentHealth = newCurrentHealth;
-            component.Maxhealth = newMaxhealth;
+            component.Value = newValue;
             return AddComponent(ComponentIds.Health, component);
         }
 
-        public Entity ReplaceHealth(int newCurrentHealth, int newMaxhealth) {
+        public Entity ReplaceHealth(int newValue) {
             var component = CreateComponent<NetherWars.Health>(ComponentIds.Health);
-            component.CurrentHealth = newCurrentHealth;
-            component.Maxhealth = newMaxhealth;
+            component.Value = newValue;
             ReplaceComponent(ComponentIds.Health, component);
             return this;
         }
