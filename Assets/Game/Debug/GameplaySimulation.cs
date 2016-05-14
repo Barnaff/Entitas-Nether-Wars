@@ -236,9 +236,25 @@ public class GameplaySimulation : MonoBehaviour {
     {
         Debug.Log(attacker + " attacks " + target);
 
-        target.AddDamage(attacker.strength.Value);
+        if (target.hasDamage)
+        {
+            target.ReplaceDamage(target.damage.Value + attacker.strength.Value);
+        }
+        else
+        {
+            target.AddDamage(attacker.strength.Value);
+        }
 
-        attacker.AddDamage(target.strength.Value);
+
+        if (attacker.hasDamage)
+        {
+            attacker.ReplaceDamage(attacker.damage.Value + target.strength.Value);
+        }
+        else
+        {
+            attacker.AddDamage(target.strength.Value);
+        }
+       
 
         attacker.isTapped = true;
 
