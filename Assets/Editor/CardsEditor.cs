@@ -2,11 +2,15 @@
 using System.Collections;
 using UnityEditor;
 using NetherWars.Data;
+using System.Collections.Generic;
 
 public class CardsEditor : EditorWindow{
 
     [SerializeField]
     private CardModel _selectedCard;
+
+    [SerializeField]
+    private List<CardModel> _cardsList;
 
     private Vector2 _cardListScrollPosition = Vector2.zero;
     private Vector2 _cardEditScrollPosition = Vector2.zero;
@@ -16,6 +20,12 @@ public class CardsEditor : EditorWindow{
     {
         // Get existing open window or if none, make a new one:
         EditorWindow.GetWindow(typeof(CardsEditor));
+    }
+
+
+    void OnEnable()
+    {
+        ReloadCardsList();
     }
 
      
@@ -29,6 +39,7 @@ public class CardsEditor : EditorWindow{
         if (GUILayout.Button("New Card", GUILayout.Width(150)))
         {
             _selectedCard = new CardModel();
+            ReloadCardsList();
         }
 
         if (_selectedCard == null)
@@ -39,11 +50,13 @@ public class CardsEditor : EditorWindow{
         if (GUILayout.Button("Save Current Card", GUILayout.Width(150)))
         {
             CardsLoader.SaveCard(_selectedCard);
+            ReloadCardsList();
         }
 
         if (GUILayout.Button("Delete Current Card", GUILayout.Width(150)))
         {
             _selectedCard = null;
+            ReloadCardsList();
         }
 
         GUI.enabled = true;
@@ -55,7 +68,17 @@ public class CardsEditor : EditorWindow{
 
         _cardListScrollPosition = EditorGUILayout.BeginScrollView(_cardListScrollPosition, "Box", GUILayout.Width(150));
 
-        GUILayout.Button("Card");
+        if (_cardsList != null)
+        {
+            for (int i = 0; i < _cardsList.Count; i++)
+            {
+                if (GUILayout.Button(_cardsList[i].CardName + " [" +_cardsList[i].CardId + "]"))
+                {
+                    _selectedCard = _cardsList[i];
+                }
+            }
+        }
+  
 
         EditorGUILayout.EndScrollView();
 
@@ -111,18 +134,22 @@ public class CardsEditor : EditorWindow{
 
             EditorGUILayout.EndHorizontal();
 
-            for (int i=0; i< _selectedCard.Powers.Count; i++)
+            if (_selectedCard.Powers != null)
             {
-                EditorGUILayout.BeginHorizontal();
-                _selectedCard.Powers[i] = EditorGUILayout.TextArea(_selectedCard.Powers[i], GUILayout.Height(50));
-                if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(50)))
+                for (int i = 0; i < _selectedCard.Powers.Count; i++)
                 {
-                    _selectedCard.Powers.RemoveAt(i);
+                    EditorGUILayout.BeginHorizontal();
+                    _selectedCard.Powers[i] = EditorGUILayout.TextArea(_selectedCard.Powers[i], GUILayout.Height(50));
+                    if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(50)))
+                    {
+                        _selectedCard.Powers.RemoveAt(i);
+                        EditorGUILayout.EndHorizontal();
+                        break;
+                    }
                     EditorGUILayout.EndHorizontal();
-                    break;
                 }
-                EditorGUILayout.EndHorizontal();
             }
+           
 
             EditorGUILayout.EndVertical();
 
@@ -149,6 +176,12 @@ public class CardsEditor : EditorWindow{
 
         EditorGUILayout.EndHorizontal();
 
+    }
+
+
+    private void ReloadCardsList()
+    {
+        _cardsList = CardsLoader.LoadAllCards();
     }
 
 }

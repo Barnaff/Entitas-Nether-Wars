@@ -12,15 +12,17 @@ namespace Entitas {
 
         public bool hasCard { get { return HasComponent(ComponentIds.Card); } }
 
-        public Entity AddCard(string newCardID) {
+        public Entity AddCard(string newCardID, string newCardName) {
             var component = CreateComponent<NetherWars.Card>(ComponentIds.Card);
             component.CardID = newCardID;
+            component.CardName = newCardName;
             return AddComponent(ComponentIds.Card, component);
         }
 
-        public Entity ReplaceCard(string newCardID) {
+        public Entity ReplaceCard(string newCardID, string newCardName) {
             var component = CreateComponent<NetherWars.Card>(ComponentIds.Card);
             component.CardID = newCardID;
+            component.CardName = newCardName;
             ReplaceComponent(ComponentIds.Card, component);
             return this;
         }

@@ -79,7 +79,7 @@ public class GameplaySimulation : MonoBehaviour {
 
                     GUILayout.BeginVertical("Box", GUILayout.Width(LAYOUT_CARD_WIDTH));
 
-                    GUILayout.Label("Card " + cardsInHand[i].card.CardID);
+                    GUILayout.Label(cardsInHand[i].card.CardName);
 
                     GUILayout.Label("Cost " + cardsInHand[i].manaCost.Value);
 
@@ -124,7 +124,7 @@ public class GameplaySimulation : MonoBehaviour {
 
                     GUILayout.BeginVertical("Box" , GUILayout.Width(LAYOUT_CARD_WIDTH));
 
-                    GUILayout.Label("Card " + cardsInBattlefield[i].card.CardID);
+                    GUILayout.Label(cardsInBattlefield[i].card.CardName);
 
                     if (cardsInBattlefield[i].hasDamage)
                     {

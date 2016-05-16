@@ -1,1 +1,1 @@
-{"CardId":"a02","CardName":"Librarian","ManaCost":"U1","ConvertedManaCost":2,"CardType":0,"Strength":1,"Health":2,"Powers":["on this enter controller draw 1"],"Description":"When enter, draw a card"}
+{"CardId":"a02","CardName":"Storm Craw","ManaCost":"U1","ConvertedManaCost":2,"CardType":0,"Strength":1,"Health":2,"Powers":["on [this] enter [controller] draw 2"],"Description":"When enter, draw a card"}

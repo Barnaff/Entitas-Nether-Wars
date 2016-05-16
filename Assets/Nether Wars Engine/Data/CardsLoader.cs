@@ -7,8 +7,8 @@ namespace NetherWars.Data
 {
     public class CardsLoader
     {
-        public static string CARDS_RESOURCE_PATH = "Assets/Resources/Cards/";
-
+        public static string CARDS_RESOURCE_PATH = "/Resources/Cards/";
+        public static string CARD_FILE_EXTENSION = "json";
 
         public static void SaveCard(CardModel card)
         {
@@ -16,7 +16,7 @@ namespace NetherWars.Data
 
             Debug.Log(jsonString);
 
-            string path = CARDS_RESOURCE_PATH + card.CardId + ".json";
+            string path = Application.dataPath + CARDS_RESOURCE_PATH + card.CardId + "." + CARD_FILE_EXTENSION;
 
             using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
@@ -31,16 +31,41 @@ namespace NetherWars.Data
         }
 
 
-        public List<CardModel> LoadAllCards()
+        public static string[] GetAllCardsFilesPaths()
         {
-
-
-            return null;
+            string[] filePaths = Directory.GetFiles(Application.dataPath + CARDS_RESOURCE_PATH, "*" + CARD_FILE_EXTENSION);
+            return filePaths;
         }
 
-        private CardModel LoadCardFile(string path)
+
+        public static List<CardModel> LoadAllCards()
         {
+            string[] cardsFilesPaths = GetAllCardsFilesPaths();
+            List<CardModel> cards = new List<CardModel>();
+            foreach (string cardFilePath in cardsFilesPaths)
+            {
+                
+                CardModel card = CardsLoader.LoadCardFile(cardFilePath);
+                if (card != null)
+                {
+                    cards.Add(card);
+                }
+            }
+            return cards;
+        }
+
+        private static CardModel LoadCardFile(string path)
+        {
+            string filePath = Path.GetFileName(path).Replace("." + CARD_FILE_EXTENSION, "");
+
+            TextAsset targetFile = Resources.Load<TextAsset>("Cards/" + filePath);
+            if (targetFile != null)
+            {
+                CardModel card = JsonUtility.FromJson<CardModel>(targetFile.text);
+                return card;
+            }
             return null;
+         
         }
 
 

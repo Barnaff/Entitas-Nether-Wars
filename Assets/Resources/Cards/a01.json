@@ -1,1 +1,1 @@
-{"CardId":"a01","CardName":"Zombie","ManaCost":"B1","ConvertedManaCost":2,"CardType":0,"Strength":2,"Health":2,"Powers":["on this enter controller draw 1"],"Description":"Brains..."}
+{"CardId":"a01","CardName":"Zombie","ManaCost":"B1","ConvertedManaCost":2,"CardType":0,"Strength":2,"Health":2,"Powers":["on [this] enter [controller] draw 1"],"Description":"Brains..."}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Entitas;
+using NetherWars.Data;
 
 namespace NetherWars
 {
@@ -9,6 +10,9 @@ namespace NetherWars
         private Pool _pool;
 
         Random _random;
+
+        private Dictionary<string, CardModel> _cardsData;
+
 
         public void SetPool(Pool pool)
         {
@@ -19,13 +23,15 @@ namespace NetherWars
         {
             Logger.LogMessage("Initialize match");
 
+            LoadCardsList();
+
             // generate random seed
             _random = new Random();
 
             // create players and deal cards
             List<Entity> players = new List<Entity>();
-            players.Add(CreatePlayer(1, "player 1", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" , "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
-            players.Add(CreatePlayer(2, "player 2", new string[20] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" }));
+            players.Add(CreatePlayer(1, "player 1", new string[20] { "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05" }));
+            players.Add(CreatePlayer(2, "player 2", new string[20] { "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05", "a01", "a02", "a03", "a04", "a05" }));
 
             // pick the first player
             int randomIndex = _random.Next(players.Count);
@@ -52,14 +58,7 @@ namespace NetherWars
             // put all the player's cards in his deck and mark them as his.
             for (int i=0; i< cardsInDeck.Length; i++)
             {
-
-                _pool.CreateEntity()
-                    .AddCard(cardsInDeck[i])
-                    .AddController(playerId)
-                    .IsDeck(true)
-                    .AddManaCost(_random.Next(3) + 1)
-                    .AddStrength(_random.Next(2) + 1)
-                    .AddHealth(_random.Next(2) + 1);
+                CreateCard(cardsInDeck[i], playerId);
             }
 
             // add mana pool to the player
@@ -72,6 +71,49 @@ namespace NetherWars
             player.AddDraw(5);
 
             return player;
+        }
+
+
+        private void LoadCardsList()
+        {
+            _cardsData = new Dictionary<string, CardModel>();
+            List<CardModel> cardsList = CardsLoader.LoadAllCards();
+            foreach (CardModel cardModel in cardsList)
+            {
+                _cardsData.Add(cardModel.CardId, cardModel);
+            }
+        }
+
+        private Entity CreateCard(string cardId, int controllerId)
+        {
+            CardModel cardModel = _cardsData[cardId];
+
+            Entity card = _pool.CreateEntity();
+
+            card.AddCard(cardId, cardModel.CardName);
+
+            card.AddController(controllerId);
+
+            card.AddManaCost(cardModel.ConvertedManaCost);
+
+            card.IsDeck(true);
+
+            switch (cardModel.CardType)
+            {
+                case eCardType.Creature:
+                    {
+                        card.AddStrength(cardModel.Strength);
+                        card.AddHealth(cardModel.Health);
+                        break;
+                    }
+                case eCardType.Artifact:
+                case eCardType.Spell:
+                    {
+                        break;
+                    }
+            }
+
+            return card;
         }
     }
 
