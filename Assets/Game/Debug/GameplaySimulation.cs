@@ -2,6 +2,7 @@
 using System.Collections;
 using Entitas;
 using System.Collections.Generic;
+using NetherWars.Parsing;
 
 public class GameplaySimulation : MonoBehaviour {
 
@@ -11,7 +12,14 @@ public class GameplaySimulation : MonoBehaviour {
 
     private Entity attackingCard;
 
+    private string _inputString = "";
 
+    private Interpertor _interpertor;
+
+    void OnEnable()
+    {
+        _interpertor = new Interpertor();
+    }
 
     void OnGUI()
     {
@@ -171,6 +179,21 @@ public class GameplaySimulation : MonoBehaviour {
 
         }
 
+
+        // Interperter
+
+        GUILayout.BeginVertical("Box");
+
+        _inputString = GUILayout.TextArea(_inputString);
+
+        if (GUILayout.Button("Execute"))
+        {
+            ExecuteString(_inputString);
+        }
+
+        GUILayout.EndHorizontal();
+
+
         GUILayout.EndVertical(); // -1
 
     }
@@ -259,6 +282,19 @@ public class GameplaySimulation : MonoBehaviour {
         attacker.isTapped = true;
 
         attackingCard = null;
+    }
+
+    #endregion
+
+
+
+    #region Processor
+
+    private void ExecuteString(string inputString)
+    {
+        _interpertor.Execute(inputString);
+
+
     }
 
     #endregion
