@@ -11,11 +11,19 @@ namespace NetherWars.Powers
     }
 
 
-    public class EffectDrawCard : EffectAbstract
+    public class DrawCardEffect : EffectAbstract
     {
         public int CardsToDraw;
 
         public Target ValidTarget;
+    }
+
+    public class DealDamage : EffectAbstract
+    {
+        public int DamageAmount;
+
+        public Target ValidTarget;
+
     }
 
 }

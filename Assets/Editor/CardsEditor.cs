@@ -227,13 +227,13 @@ public class CardsEditor : EditorWindow{
     private void PowerPanel(Power power)
     {
 
-        GUILayout.BeginVertical("Box");
+        EditorGUILayout.BeginVertical("Box");
 
-        GUILayout.BeginHorizontal("Box");
+        EditorGUILayout.BeginHorizontal("Box");
 
         if (GUILayout.Button("Create Veribal"))
         {
-
+           
         }
 
         if (GUILayout.Button("Add Trigger"))
@@ -243,11 +243,7 @@ public class CardsEditor : EditorWindow{
                 power.Triggers = new List<TriggerAbstract>();
             }
 
-            ChangedZoneTrigger t = new ChangedZoneTrigger();
-            t.FromZone = eZoneType.Hand;
-            t.ToZone = eZoneType.Battlefield;
-
-            power.Triggers.Add(t);
+            power.Triggers.Add(null);
         }
 
         if (GUILayout.Button("Add Effect"))
@@ -257,17 +253,86 @@ public class CardsEditor : EditorWindow{
                 power.Effects = new List<EffectAbstract>();
             }
 
-            EffectDrawCard e = new EffectDrawCard();
+            DrawCardEffect e = new DrawCardEffect();
             e.CardsToDraw = 2;
             power.Effects.Add(e);
         }
 
-       
-
-        GUILayout.EndHorizontal();
 
 
-        GUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
 
+        if (power.Triggers != null)
+        {
+            for (int i=0; i< power.Triggers.Count; i++)
+            {
+                TriggerAbstract trigger = power.Triggers[i];
+
+                if (trigger == null)
+                {
+
+                    eTriggerType triggerType = eTriggerType.None;
+
+                    triggerType = (eTriggerType)EditorGUILayout.EnumPopup("Trigger Type", triggerType);
+
+                    switch (triggerType)
+                    {
+                        case eTriggerType.ChangedZone:
+                            {
+                                power.Triggers[i] = new ChangedZoneTrigger();
+                                break;
+                            }
+                        case eTriggerType.DealDamage:
+                            {
+                                power.Triggers[i] = new DealDamageTrigger();
+                                break;
+                            }
+                    }
+
+                }
+                else
+                {
+                    DrawTrigger(trigger);
+                }
+
+                
+            }
+        }
+
+
+        EditorGUILayout.EndVertical();
+
+    }
+
+
+    private void DrawTrigger(TriggerAbstract trigger)
+    {
+        EditorGUILayout.BeginVertical("Box");
+
+        if (trigger is ChangedZoneTrigger)
+        {
+            DrawChangedZoneTrigger(trigger as ChangedZoneTrigger);
+
+        }
+        else if (trigger is DealDamageTrigger)
+        {
+
+        }
+
+
+        EditorGUILayout.EndVertical();
+    }
+
+
+    private void DrawChangedZoneTrigger(ChangedZoneTrigger chnagedZoneTrigger)
+    {
+        EditorGUILayout.BeginHorizontal();
+
+        chnagedZoneTrigger.FromZone = (eZoneType)EditorGUILayout.EnumPopup("From Zone", chnagedZoneTrigger.FromZone);
+
+        chnagedZoneTrigger.ToZone = (eZoneType)EditorGUILayout.EnumPopup("To Zone", chnagedZoneTrigger.ToZone);
+
+
+        EditorGUILayout.EndHorizontal();
     }
 }

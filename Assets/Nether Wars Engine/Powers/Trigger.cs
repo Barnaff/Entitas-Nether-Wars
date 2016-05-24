@@ -17,6 +17,13 @@ namespace NetherWars.Powers
 
     }
 
+    public enum eTriggerType
+    {
+        None,
+        ChangedZone, 
+        DealDamage,
+    }
+
     [System.Serializable]
     public class ChangedZoneTrigger : TriggerAbstract
     {
