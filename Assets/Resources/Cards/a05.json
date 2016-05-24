@@ -1,1 +1,1 @@
-{"CardId":"a05","CardName":"Blazing Imp","ManaCost":"R","ConvertedManaCost":1,"CardType":0,"Strength":1,"Health":1,"Powers":[],"Description":""}
+{"CardId":"a05","CardName":"Zombie","ManaCost":"B1","ConvertedManaCost":2,"CardType":0,"Strength":2,"Health":2,"Description":"","Powers":[{"Triggers":null,"Effects":null}]}

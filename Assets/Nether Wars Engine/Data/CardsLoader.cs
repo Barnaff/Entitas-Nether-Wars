@@ -12,7 +12,12 @@ namespace NetherWars.Data
 
         public static void SaveCard(CardModel card)
         {
-            string jsonString = JsonUtility.ToJson(card);
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto };
+
+            string jsonString =  Newtonsoft.Json.JsonConvert.SerializeObject(card, settings);
+
+           // string jsonString = JsonUtility.ToJson(card);
 
             Debug.Log(jsonString);
 
@@ -22,6 +27,7 @@ namespace NetherWars.Data
             {
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
+                    Debug.Log("write to file");
                     writer.Write(jsonString);
                 }
             }
@@ -61,7 +67,10 @@ namespace NetherWars.Data
             TextAsset targetFile = Resources.Load<TextAsset>("Cards/" + filePath);
             if (targetFile != null)
             {
-                CardModel card = JsonUtility.FromJson<CardModel>(targetFile.text);
+                Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings { TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto };
+
+                CardModel card  = Newtonsoft.Json.JsonConvert.DeserializeObject<CardModel>(targetFile.text, settings);
+                //CardModel card = JsonUtility.FromJson<CardModel>(targetFile.text);
                 return card;
             }
             return null;

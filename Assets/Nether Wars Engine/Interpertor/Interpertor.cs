@@ -6,12 +6,15 @@ namespace NetherWars.Parsing
 {
     class Interpertor
     {
+        private Tokenizer _tokenizer;
+
         private Processor _processor;
 
         private const string GRAMMER_FILE_PATH = "Assets/Resources/grammer.txt";
 
         public Interpertor()
         {
+            _tokenizer = new Tokenizer();
             _processor = new Processor();
 
             LoadGrammer(GRAMMER_FILE_PATH);
@@ -19,21 +22,15 @@ namespace NetherWars.Parsing
 
         public void Execute(string inputString)
         {
-            _processor.InputString = inputString;
+            System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
+            stopWatch.Start();
 
-            Token token = _processor.GetToken();
-            string output = "";
+            _tokenizer.InputString = inputString;
 
-            while (token != null)
-            {
-                output += @"{" + token.TokenName + @"}";
+            _processor.Run(inputString, _tokenizer);
 
-                token = _processor.GetToken();
-            }
+            UnityEngine.Debug.Log("Finished executing in " + stopWatch.ElapsedMilliseconds + "ms");
 
-            UnityEngine.Debug.Log(output);
-
-            _processor.ResetProcessor();
         }
 
         private bool LoadGrammer(string fileName)
@@ -98,7 +95,7 @@ namespace NetherWars.Parsing
                             if (regex.Equals(string.Empty))
                                 continue;
 
-                            string retval = _processor.AddRegExToken(regex, ident);
+                            string retval = _tokenizer.AddRegExToken(regex, ident);
                             if (retval != string.Empty)
                             {
                                 UnityEngine.Debug.LogError("ERROR - " + retval);

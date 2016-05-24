@@ -1,4 +1,7 @@
-﻿namespace NetherWars.Data
+﻿using System.Collections.Generic;
+using NetherWars.Powers;
+
+namespace NetherWars.Data
 {
     [System.Serializable]
     public enum eCardType
@@ -25,8 +28,11 @@
 
         public int Health;
 
-        public System.Collections.Generic.List<string> Powers;
+        //public System.Collections.Generic.List<string> Powers;
 
         public string Description;
+
+        public List<Power> Powers;
+       
     }
 }

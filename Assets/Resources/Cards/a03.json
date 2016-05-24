@@ -1,1 +1,1 @@
-{"CardId":"a03","CardName":"Shield Bearer","ManaCost":"WW","ConvertedManaCost":2,"CardType":0,"Strength":1,"Health":4,"Powers":["taunt","defender"],"Description":"taunt, defender"}
+{"CardId":"a03","CardName":"Zombie","ManaCost":"B1","ConvertedManaCost":2,"CardType":0,"Strength":2,"Health":2,"Description":"","Powers":[{"Triggers":null,"Effects":null}]}

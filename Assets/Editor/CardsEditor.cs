@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEditor;
 using NetherWars.Data;
+using NetherWars.Powers;
 using System.Collections.Generic;
 
 public class CardsEditor : EditorWindow{
@@ -119,9 +120,9 @@ public class CardsEditor : EditorWindow{
                     }
             }
 
-            EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
 
-            
+            /*
+            EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
 
             EditorGUILayout.BeginHorizontal();
 
@@ -161,6 +162,9 @@ public class CardsEditor : EditorWindow{
             _selectedCard.Description =  EditorGUILayout.TextArea(_selectedCard.Description, GUILayout.Height(50));
 
             EditorGUILayout.EndVertical();
+            */
+
+            PowersListPanel(_selectedCard);
 
         }
         else
@@ -184,4 +188,86 @@ public class CardsEditor : EditorWindow{
         _cardsList = CardsLoader.LoadAllCards();
     }
 
+
+    private void PowersListPanel(CardModel card)
+    {
+        EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
+
+
+
+        EditorGUILayout.LabelField("Powers");
+
+        if (card.Powers != null)
+        {
+            if (GUILayout.Button("Add Power"))
+            {
+               
+
+                card.Powers.Add(new Power());
+            }
+
+            foreach (Power power in card.Powers)
+            {
+                PowerPanel(power);
+            }
+        }
+        else
+        {
+            card.Powers = new List<Power>();
+
+        }
+       
+
+       
+
+        EditorGUILayout.EndVertical();
+    }
+
+
+    private void PowerPanel(Power power)
+    {
+
+        GUILayout.BeginVertical("Box");
+
+        GUILayout.BeginHorizontal("Box");
+
+        if (GUILayout.Button("Create Veribal"))
+        {
+
+        }
+
+        if (GUILayout.Button("Add Trigger"))
+        {
+            if (power.Triggers == null)
+            {
+                power.Triggers = new List<TriggerAbstract>();
+            }
+
+            ChangedZoneTrigger t = new ChangedZoneTrigger();
+            t.FromZone = eZoneType.Hand;
+            t.ToZone = eZoneType.Battlefield;
+
+            power.Triggers.Add(t);
+        }
+
+        if (GUILayout.Button("Add Effect"))
+        {
+            if (power.Effects == null)
+            {
+                power.Effects = new List<EffectAbstract>();
+            }
+
+            EffectDrawCard e = new EffectDrawCard();
+            e.CardsToDraw = 2;
+            power.Effects.Add(e);
+        }
+
+       
+
+        GUILayout.EndHorizontal();
+
+
+        GUILayout.EndVertical();
+
+    }
 }

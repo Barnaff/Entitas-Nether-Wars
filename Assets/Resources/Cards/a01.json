@@ -1,1 +1,31 @@
-{"CardId":"a01","CardName":"Zombie","ManaCost":"B1","ConvertedManaCost":2,"CardType":0,"Strength":2,"Health":2,"Powers":["on [this] enter [controller] draw 1"],"Description":"Brains..."}
+{
+  "CardId": "a01",
+  "CardName": "Zombie",
+  "ManaCost": "B1",
+  "ConvertedManaCost": 2,
+  "CardType": 0,
+  "Strength": 2,
+  "Health": 2,
+  "Description": null,
+  "Powers": [
+    {
+      "Triggers": [
+        {
+          "$type": "NetherWars.Powers.ChangedZoneTrigger, Assembly-CSharp",
+          "FromZone": 0,
+          "ToZone": 1,
+          "ValidTarget": null,
+          "TriggerDisplayName": null
+        }
+      ],
+      "Effects": [
+        {
+          "$type": "NetherWars.Powers.EffectDrawCard, Assembly-CSharp",
+          "CardsToDraw": 2,
+          "ValidTarget": null,
+          "EffectDisplayname": ""
+        }
+      ]
+    }
+  ]
+}
