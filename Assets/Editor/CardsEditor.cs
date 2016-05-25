@@ -4,6 +4,7 @@ using UnityEditor;
 using NetherWars.Data;
 using NetherWars.Powers;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class CardsEditor : EditorWindow{
 
@@ -191,45 +192,55 @@ public class CardsEditor : EditorWindow{
 
     private void PowersListPanel(CardModel card)
     {
-        EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
-
-
-
+        EditorGUILayout.BeginVertical("Box", GUILayout.Width(600));
         EditorGUILayout.LabelField("Powers");
-
         if (card.Powers != null)
         {
             if (GUILayout.Button("Add Power"))
             {
-               
-
                 card.Powers.Add(new Power());
             }
+			for (int i=0; i< card.Powers.Count; i++)
+			{
+				Power power = card.Powers[i];
 
-            foreach (Power power in card.Powers)
-            {
-                PowerPanel(power);
-            }
+				bool delete = PowerPanel(power);
+
+				if (delete)
+				{
+					card.Powers.RemoveAt(i);
+					EditorGUILayout.EndVertical();
+					return;
+				}
+			}
         }
         else
         {
             card.Powers = new List<Power>();
-
         }
-       
-
-       
-
         EditorGUILayout.EndVertical();
     }
 
 
-    private void PowerPanel(Power power)
+    private bool PowerPanel(Power power)
     {
 
-        EditorGUILayout.BeginVertical("Box");
+		EditorGUILayout.BeginVertical("Box");
 
-        EditorGUILayout.BeginHorizontal("Box");
+		EditorGUILayout.BeginHorizontal();
+
+		power.PowerDescription = EditorGUILayout.TextField("Power Description", power.PowerDescription);
+
+		if (GUILayout.Button("X", GUILayout.Width(25)))
+		{
+			EditorGUILayout.EndHorizontal();
+			EditorGUILayout.EndVertical();
+			return true;
+		}
+
+		EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Create Veribal"))
         {
@@ -259,22 +270,19 @@ public class CardsEditor : EditorWindow{
         }
 
 
-
         EditorGUILayout.EndHorizontal();
 
         if (power.Triggers != null)
         {
             for (int i=0; i< power.Triggers.Count; i++)
             {
-                TriggerAbstract trigger = power.Triggers[i];
-
+				EditorGUILayout.BeginVertical("Box");
+				TriggerAbstract trigger = power.Triggers[i];
+				eTriggerType triggerType = eTriggerType.None;
                 if (trigger == null)
                 {
-
-                    eTriggerType triggerType = eTriggerType.None;
-
+					EditorGUILayout.BeginHorizontal();
                     triggerType = (eTriggerType)EditorGUILayout.EnumPopup("Trigger Type", triggerType);
-
                     switch (triggerType)
                     {
                         case eTriggerType.ChangedZone:
@@ -289,26 +297,48 @@ public class CardsEditor : EditorWindow{
                             }
                     }
 
+					if (GUILayout.Button("X", GUILayout.Width(25)))
+					{
+						power.Triggers.RemoveAt(i);
+						EditorGUILayout.EndHorizontal();
+						EditorGUILayout.EndVertical();
+						return false;
+					}
+
+					EditorGUILayout.EndHorizontal();
                 }
                 else
-                {
-                    DrawTrigger(trigger);
+				{
+					EditorGUILayout.BeginHorizontal("Box");
+					EditorGUILayout.LabelField(Regex.Replace(trigger.GetType().Name, "(\\B[A-Z])", " $1"), EditorStyles.boldLabel);
+					if (GUILayout.Button("X", GUILayout.Width(25)))
+					{
+						power.Triggers[i] = null;
+						triggerType = eTriggerType.None;
+						Debug.Log("delete trigger");
+
+					}
+					EditorGUILayout.EndHorizontal();
+					if (trigger != null)
+					{
+                    	DrawTrigger(trigger);
+					}
                 }
 
-                
+				EditorGUILayout.EndVertical();
+
+				EditorGUILayout.Space();
             }
         }
 
-
         EditorGUILayout.EndVertical();
 
+		return false;
     }
 
 
     private void DrawTrigger(TriggerAbstract trigger)
     {
-        EditorGUILayout.BeginVertical("Box");
-
         if (trigger is ChangedZoneTrigger)
         {
             DrawChangedZoneTrigger(trigger as ChangedZoneTrigger);
@@ -316,23 +346,66 @@ public class CardsEditor : EditorWindow{
         }
         else if (trigger is DealDamageTrigger)
         {
-
+			DrawDealDamageTrigger(trigger as DealDamageTrigger);
         }
-
-
-        EditorGUILayout.EndVertical();
     }
 
 
     private void DrawChangedZoneTrigger(ChangedZoneTrigger chnagedZoneTrigger)
     {
         EditorGUILayout.BeginHorizontal();
-
         chnagedZoneTrigger.FromZone = (eZoneType)EditorGUILayout.EnumPopup("From Zone", chnagedZoneTrigger.FromZone);
-
         chnagedZoneTrigger.ToZone = (eZoneType)EditorGUILayout.EnumPopup("To Zone", chnagedZoneTrigger.ToZone);
-
-
         EditorGUILayout.EndHorizontal();
+		chnagedZoneTrigger.ValidTarget = DrawTargetField("Valid Target", chnagedZoneTrigger.ValidTarget);
     }
+
+	private void DrawDealDamageTrigger(DealDamageTrigger dealDamageTrigger)
+	{
+		EditorGUILayout.BeginVertical();
+		dealDamageTrigger.ValidAttacker = DrawTargetField("Valid Attacker", dealDamageTrigger.ValidAttacker);
+		dealDamageTrigger.ValidTarget = DrawTargetField("Valid Target", dealDamageTrigger.ValidTarget);
+		EditorGUILayout.BeginHorizontal();
+		dealDamageTrigger.ValidZone = (eZoneType)EditorGUILayout.EnumPopup("Valid Zone", dealDamageTrigger.ValidZone);
+		dealDamageTrigger.RequireCombatDamage = EditorGUILayout.Toggle("Require Combat Damage",dealDamageTrigger.RequireCombatDamage);
+		dealDamageTrigger.MinRequireDamage = EditorGUILayout.IntField("Min Damage", dealDamageTrigger.MinRequireDamage);
+		EditorGUILayout.EndHorizontal();
+		EditorGUILayout.EndVertical();
+	}
+
+
+	private Target DrawTargetField(string title, Target target)
+	{
+		EditorGUILayout.BeginVertical("Box");
+
+		if (target == null)
+		{
+			if (GUILayout.Button("Set Target"))
+			{
+				target = new Target();
+			}
+		}
+		else
+		{
+			EditorGUILayout.BeginHorizontal();
+
+			target.ValidTargets = (eTargetType)EditorGUILayout.EnumMaskField(title, target.ValidTargets);
+
+			if (GUILayout.Button("X", GUILayout.Width(25)))
+			{
+				target = null;
+			}
+
+			EditorGUILayout.EndHorizontal();
+		}
+
+		EditorGUILayout.EndVertical();
+
+		return target;
+	}
+
+	private Target DrawTargetField(Target target)
+	{
+		return DrawTargetField("", target);
+	}
 }

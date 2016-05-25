@@ -27,7 +27,6 @@ namespace NetherWars.Data
             {
                 using (StreamWriter writer = new StreamWriter(fileStream))
                 {
-                    Debug.Log("write to file");
                     writer.Write(jsonString);
                 }
             }
