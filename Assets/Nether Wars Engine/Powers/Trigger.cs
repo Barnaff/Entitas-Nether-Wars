@@ -1,4 +1,7 @@
-﻿
+﻿using System.Collections.Generic;
+using System.Collections;
+using System;
+
 namespace NetherWars.Powers
 {
 
@@ -14,7 +17,7 @@ namespace NetherWars.Powers
     {
         public string TriggerDisplayName;
 
-
+		public abstract Dictionary <string, Type> Fields { get; }
     }
 
     public enum eTriggerType
@@ -32,6 +35,15 @@ namespace NetherWars.Powers
         public eZoneType ToZone;
 
         public Target ValidTarget;
+
+		public override Dictionary<string, Type> Fields {
+			get {
+				Dictionary<string, Type> fields = new Dictionary<string, Type>();
+				fields.Add("target", typeof(Target));
+				fields.Add("zone", typeof(eZoneType));
+				return fields;
+			}
+		}
     }
 
     [System.Serializable]
