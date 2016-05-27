@@ -10,6 +10,9 @@ namespace NetherWars.Powers
     {
         Hand,
         Battlefield,
+        Deck,
+        Graveyard,
+        Exile,
     }
 
     [System.Serializable]
@@ -18,8 +21,11 @@ namespace NetherWars.Powers
         public string TriggerDisplayName;
 
 		public abstract Dictionary <string, Type> Fields { get; }
+
+        public List<EffectAbstract> Effects;
     }
 
+    [System.Serializable]
     public enum eTriggerType
     {
         None,
@@ -58,5 +64,19 @@ namespace NetherWars.Powers
         public bool RequireCombatDamage;
 
         public int MinRequireDamage;
+
+        public override Dictionary<string, Type> Fields
+        {
+            get
+            {
+                Dictionary<string, Type> fields = new Dictionary<string, Type>();
+                fields.Add("attacker", typeof(Target));
+                fields.Add("target", typeof(Target));
+                fields.Add("zone", typeof(eZoneType));
+                fields.Add("isCombatDamage", typeof(bool));
+                fields.Add("damageDelt", typeof(int));
+                return fields;
+            }
+        }
     }
 }
