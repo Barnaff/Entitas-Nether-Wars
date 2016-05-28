@@ -29,7 +29,11 @@ public class GameplaySimulation : MonoBehaviour {
 
         GUILayout.BeginHorizontal("Box"); // 2
 
-        GUILayout.Label("Current Player: " + currentPlayer.player.Id + " : " + currentPlayer.player.Name);
+        if (currentPlayer != null)
+        {
+            GUILayout.Label("Current Player: " + currentPlayer.player.Id + " : " + currentPlayer.player.Name);
+        }
+        
 
         if (isSelectingTarget)
         {

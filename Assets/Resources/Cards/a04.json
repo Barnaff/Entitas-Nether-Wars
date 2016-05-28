@@ -1,0 +1,47 @@
+{
+  "CardId": "a04",
+  "CardName": "Goblin",
+  "ManaCost": null,
+  "ConvertedManaCost": 1,
+  "CardType": 0,
+  "Strength": 1,
+  "Health": 1,
+  "Description": null,
+  "Powers": [
+    {
+      "PowerDescription": null,
+      "Triggers": [
+        {
+          "$type": "NetherWars.Powers.ChangedZoneTrigger, Assembly-CSharp",
+          "FromZone": 0,
+          "ToZone": 0,
+          "ValidTarget": null,
+          "TriggerDisplayName": null,
+          "Effects": null,
+          "Fields": {
+            "target": "NetherWars.Powers.Target, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "zone": "NetherWars.Powers.eZoneType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+          }
+        },
+        {
+          "$type": "NetherWars.Powers.DealDamageTrigger, Assembly-CSharp",
+          "ValidAttacker": null,
+          "ValidTarget": null,
+          "ValidZone": 0,
+          "RequireCombatDamage": false,
+          "MinRequireDamage": 0,
+          "TriggerDisplayName": null,
+          "Effects": null,
+          "Fields": {
+            "attacker": "NetherWars.Powers.Target, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "target": "NetherWars.Powers.Target, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "zone": "NetherWars.Powers.eZoneType, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+            "isCombatDamage": "System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+            "damageDelt": "System.Int32, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+          }
+        }
+      ],
+      "Effects": null
+    }
+  ]
+}

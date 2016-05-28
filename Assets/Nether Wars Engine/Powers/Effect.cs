@@ -11,18 +11,25 @@ namespace NetherWars.Powers
     }
 
 
-    public class DrawCardEffect : EffectAbstract
+    public enum eEffectType
     {
-        public int CardsToDraw;
-
-        public Target ValidTarget;
+        None,
+        DrawCards,
+        DealDamage,
     }
 
-    public class DealDamage : EffectAbstract
+    public class DrawCardEffect : EffectAbstract
     {
-        public int DamageAmount;
+        public Variable CardsToDraw = new Variable("cardsToDraw", eVaribaleReturnType.Number);
 
-        public Target ValidTarget;
+        public Variable TargetPlayer = new Variable("targetPlayer", eVaribaleReturnType.Player); 
+    }
+
+    public class DealDamageEffect : EffectAbstract
+    {
+        public Variable DamageAmount = new Variable("damageAmount", eVaribaleReturnType.Number);
+
+        public Variable TargetPlayer = new Variable("targetPlayer", eVaribaleReturnType.Target);
 
     }
 
