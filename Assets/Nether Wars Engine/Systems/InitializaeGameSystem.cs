@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Entitas;
 using NetherWars.Data;
+using NetherWars.Powers;
 
 namespace NetherWars
 {
@@ -112,6 +113,28 @@ namespace NetherWars
                         break;
                     }
             }
+
+
+			if (cardModel.Powers != null)
+			{
+				foreach (Power power in cardModel.Powers)
+				{
+					if (power.Triggers != null)
+					{
+						foreach (TriggerAbstract trigger in power.Triggers)
+						{
+							if (trigger is ChangedZoneTrigger)
+							{
+								card.AddChangedZoneTrigger(trigger as ChangedZoneTrigger);
+							}
+							else if (trigger is DealDamageTrigger)
+							{
+								card.AddDealDamageTrigger(trigger as DealDamageTrigger);
+							}
+						}
+					}
+				}
+			}
 
             return card;
         }
