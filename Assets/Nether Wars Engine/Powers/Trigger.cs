@@ -6,16 +6,6 @@ namespace NetherWars.Powers
 {
 
     [System.Serializable]
-    public enum eZoneType
-    {
-        Hand,
-        Battlefield,
-        Deck,
-        Graveyard,
-        Exile,
-    }
-
-    [System.Serializable]
     public abstract class TriggerAbstract
     {
         public string TriggerDisplayName;

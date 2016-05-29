@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NetherWars.Powers;
 using NetherWars.Data;
 using System.Text.RegularExpressions;
+using NetherWars;
 
 public class PowerEditor
 {

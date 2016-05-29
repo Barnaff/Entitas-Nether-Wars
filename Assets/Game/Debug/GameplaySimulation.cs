@@ -3,6 +3,7 @@ using System.Collections;
 using Entitas;
 using System.Collections.Generic;
 using NetherWars.Parsing;
+using NetherWars;
 
 public class GameplaySimulation : MonoBehaviour {
 
@@ -229,8 +230,8 @@ public class GameplaySimulation : MonoBehaviour {
     {
         if (card.isPlayable)
         {
-            card.isHand = false;
-            card.isBattlefield = true;
+            GameplayActions.ChangeCardZone(card, eZoneType.Battlefield);
+
             card.isPlayable = false;
 
             Entity player = Pools.pool.activePlayerEntity;

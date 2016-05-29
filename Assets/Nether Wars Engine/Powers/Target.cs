@@ -5,19 +5,18 @@ namespace NetherWars.Powers
 	[System.Flags]
 	public enum eTargetType
 	{
-		None 				= 0,
-		ThisCard			= 0xFFFF,
-		ThisController 		= 2,
-		Any 				= 4,
-		AnyPlayer			= 8,
-		AnyCreature			= 16,
-		Enemy 				= 32,
-		EnemyCreature		= 64,
-		EnemyPlayer			= 128,
-		Friendly			= 256, 
-		FriendlyCreature 	= 512,
-		FriendlyPlayer		= 1024,
-	}
+		None 				= 0x000,
+        This			    = 0x001,
+        ThisController 		= 0x002,
+        FriendlyCreature    = 0x004,
+        EnemyCreature       = 0x008,
+        EnemyPlayer         = 0x010,
+        Friendly            = (FriendlyCreature | ThisController),
+        AnyPlayer			= (ThisController | EnemyPlayer),
+		AnyCreature			= (EnemyCreature |FriendlyCreature),
+		Enemy 				= (EnemyCreature | EnemyPlayer),
+        Any                 = (Friendly | Enemy)
+    }
 
 	[System.Serializable]
     public class Target
