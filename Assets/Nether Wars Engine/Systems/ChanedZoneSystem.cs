@@ -42,6 +42,17 @@ namespace NetherWars
                             if (targetMatched)
                             {
                                 Debug.Log("Execute trigger");
+
+                                Dictionary<string, object> pointers = new Dictionary<string, object>();
+
+                                pointers.Add("target", triggerCard);
+                                pointers.Add("zone", zone);
+
+                                foreach (EffectAbstract effect in trigger.Effects)
+                                {
+                                    GameplayActions.ExecuteEffect(effect, pointers);
+                                }
+                               
                             }
 
                         }

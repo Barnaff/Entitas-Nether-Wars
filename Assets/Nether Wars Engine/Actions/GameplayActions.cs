@@ -1,15 +1,90 @@
 ﻿using Entitas;
 using NetherWars.Powers;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace NetherWars
 {
     public class GameplayActions
     {
 
+        public static void ExecuteEffect(EffectAbstract effect, Dictionary<string, object> pointers)
+        {
+            if (effect is DrawCardEffect)
+            {
+                DrawCardEffect drawCardEffect = effect as DrawCardEffect;
+
+                Entity player = GetVaribalValue<Entity>(drawCardEffect.TargetPlayer, pointers);
+
+                int cardsToDraw = (int)GetVaribalValue<object>(drawCardEffect.CardsToDraw, pointers);
+
+                player.AddDraw(cardsToDraw);
+            }
+        }
+
+        private static T GetVaribalValue<T>(Variable varibal, Dictionary<string, object> pointers) where T : class
+        {
+            object value = null;
+            if (varibal.Type == eVaribalType.Number)
+            {
+                return varibal.Value as T;
+            }
+
+            foreach (string pointerName in pointers.Keys)
+            {
+                if (pointerName == varibal.PointerTarget)
+                {
+                   
+                    value = pointers[pointerName];
+                    break;
+                }
+            }
+
+            switch (varibal.Operation)
+            {
+                case eVaribalOperation.GetController:
+                    {
+                        if (value is Entity)
+                        {
+                            if ((value as Entity).hasCard)
+                            {
+                                int controllerId = (value as Entity).controller.Id;
+
+                                Entity[] players = Pools.pool.GetGroup(Matcher.Player).GetEntities();
+                                foreach (Entity entity in players)
+                                {
+                                    if (entity.player.Id == controllerId)
+                                    {
+                                        value = entity;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    }
+                case eVaribalOperation.GetHealth:
+                    {
+                        break;
+                    }
+                case eVaribalOperation.GetPower:
+                    {
+                        break;
+                    }
+                case eVaribalOperation.None:
+                default:
+                    {
+                        break;
+                    }
+                    
+            }
+
+            return value as T;
+        }
+
         public static bool MatchTarget(Target target, Entity entity, Entity matchedEntity)
         {
-            eTargetType targetType = eTargetType.None;
+            eTargetType targetType = 0;
             if (entity == matchedEntity)
             {
                 return CheckTargetFlags(target.ValidTargets, eTargetType.This);
@@ -70,8 +145,7 @@ namespace NetherWars
 
         private static bool CheckTargetFlags(eTargetType flags, eTargetType target)
         {
-            Debug.Log("Check target: " + flags + " , target:  " + target + " => " + (flags & target) + " === " + ((flags & target) == eTargetType.None));
-            return (flags & target) == eTargetType.None;
+            return (flags & target) != 0;
         }
 
         public static eZoneType GetCardZone(Entity card)

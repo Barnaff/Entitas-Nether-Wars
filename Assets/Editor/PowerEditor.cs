@@ -350,7 +350,7 @@ public class PowerEditor
         varibal.Type = (eVaribalType)EditorGUILayout.EnumPopup("Value Type", varibal.Type);
         EditorGUILayout.EndHorizontal();
 
-        int selectedIndex = 0;
+        int selectedIndex = avalablePointers.IndexOf(varibal.PointerTarget);
 
         switch (varibal.Type)
         {
@@ -364,6 +364,8 @@ public class PowerEditor
                     if (avalablePointers != null && avalablePointers.Count > 0)
                     {
                         selectedIndex = EditorGUILayout.Popup("Pointer Name", selectedIndex, avalablePointers.ToArray());
+
+                        varibal.PointerTarget = avalablePointers.ToArray()[selectedIndex];
 
                         varibal.Operation = (eVaribalOperation)EditorGUILayout.EnumPopup("Pointer Operation", varibal.Operation);
                     }
