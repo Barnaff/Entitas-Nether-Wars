@@ -2,11 +2,45 @@
 using NetherWars.Powers;
 using UnityEngine;
 using System.Collections.Generic;
+using NetherWars.Powers;
+using System.Collections;
 
 namespace NetherWars
 {
     public class GameplayActions
     {
+
+        public static void  RunTargetTest()
+        {
+            /*
+            This = 0x0001,
+        ThisController = 0x0002,
+        FriendlyCreature = 0x0004,
+        EnemyCreature = 0x0008,
+        EnemyPlayer = 0x0010,
+        Friendly = (FriendlyCreature | ThisController),
+        AnyPlayer = (ThisController | EnemyPlayer),
+        AnyCreature = (EnemyCreature | FriendlyCreature),
+        Enemy = (EnemyCreature | EnemyPlayer),
+        Any = (Friendly | Enemy)
+        */
+            System.Array values = System.Enum.GetValues(typeof(eTargetType));
+            for (int i=0; i< values.Length; i++)
+            {
+                for (int j=0; j < values.Length; j++)
+                {
+                    bool res = ((eTargetType)values.GetValue(i) & (eTargetType)values.GetValue(j)) != 0;
+
+                  //  Debug.Log("checking : " + (eTargetType)values.GetValue(i) + " and " + (eTargetType)values.GetValue(j) + " >>> " + res);
+
+                }
+                eTargetType b = (eTargetType)13;
+                bool res2 = ((eTargetType)values.GetValue(i) & b) != 0;
+
+                Debug.Log(" +++ checking : " + (eTargetType)values.GetValue(i) + " and " + b + " >>> " + res2);
+            }
+
+        }
 
         public static void ExecuteEffect(EffectAbstract effect, Dictionary<string, object> pointers)
         {
@@ -18,10 +52,28 @@ namespace NetherWars
 
                 int cardsToDraw = (int)GetVaribalValue<object>(drawCardEffect.CardsToDraw, pointers);
 
-                player.AddDraw(cardsToDraw);
+                if (cardsToDraw > 0)
+                {
+                    player.AddDraw(cardsToDraw);
+                }
+               
+            }
+            else if (effect is DealDamageEffect)
+            {
+                DealDamageEffect dealDamageEffect = effect as DealDamageEffect;
+
+                Entity target = GetVaribalValue<Entity>(dealDamageEffect.Target, pointers);
+
+                int damageAmount = (int)GetVaribalValue<object>(dealDamageEffect.DamageAmount, pointers);
+
+                if (damageAmount > 0)
+                {
+                    target.AddDamage(damageAmount);
+                }
             }
         }
 
+  
         private static T GetVaribalValue<T>(Variable varibal, Dictionary<string, object> pointers) where T : class
         {
             object value = null;

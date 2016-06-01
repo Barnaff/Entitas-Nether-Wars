@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
         _pool = Pools.pool;
         _systems = createSystems(_pool);
         _systems.Initialize();
-        
+
     }
 
     void Update()
@@ -44,7 +44,8 @@ public class GameController : MonoBehaviour {
             .Add(pool.CreateSystem<NetherWars.ManaPoolSystem>())
 			.Add(pool.CreateSystem<NetherWars.PlayableSystem>())
 
-			.Add(pool.CreateSystem<NetherWars.ChanedZoneSystem>())
+            .Add(pool.CreateSystem<NetherWars.ChanedZoneSystem>())
+            .Add(pool.CreateSystem<NetherWars.DealDamageSystem>())
 
             .Add(pool.CreateSystem<NetherWars.EnterBattlefieldSystem>());
         

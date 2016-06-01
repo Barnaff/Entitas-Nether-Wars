@@ -29,7 +29,7 @@ namespace NetherWars.Powers
     {
         public Variable DamageAmount = new Variable("damageAmount", eVaribaleReturnType.Number);
 
-        public Variable TargetPlayer = new Variable("targetPlayer", eVaribaleReturnType.Target);
+        public Variable Target = new Variable("target", eVaribaleReturnType.Target);
 
     }
 

@@ -20,6 +20,8 @@ public class GameplaySimulation : MonoBehaviour {
     void OnEnable()
     {
         _interpertor = new Interpertor();
+
+        GameplayActions.RunTargetTest();
     }
 
     void OnGUI()
@@ -264,25 +266,25 @@ public class GameplaySimulation : MonoBehaviour {
     {
         Debug.Log(attacker + " attacks " + target);
 
-        if (target.hasDamage)
+        if (target.hasDealDamage)
         {
-            target.ReplaceDamage(target.damage.Value + attacker.strength.Value);
+            target.ReplaceDealDamage(attacker.strength.Value, true, attacker);
         }
         else
         {
-            target.AddDamage(attacker.strength.Value);
+            target.AddDealDamage(attacker.strength.Value, true, attacker);
         }
 
 
         if (attacker.hasDamage)
         {
-            attacker.ReplaceDamage(attacker.damage.Value + target.strength.Value);
+            attacker.ReplaceDealDamage(target.strength.Value, true, target);
         }
         else
         {
-            attacker.AddDamage(target.strength.Value);
+            attacker.AddDealDamage(target.strength.Value, true, target);
         }
-       
+
 
         attacker.isTapped = true;
 

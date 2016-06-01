@@ -13,26 +13,27 @@ public static class ComponentIds {
     public const int ChangedZoneTrigger = 3;
     public const int Controller = 4;
     public const int Damage = 5;
-    public const int DealDamageTrigger = 6;
-    public const int Deck = 7;
-    public const int Draw = 8;
-    public const int Graveyard = 9;
-    public const int Hand = 10;
-    public const int Health = 11;
-    public const int ManaCost = 12;
-    public const int ManaPool = 13;
-    public const int Playable = 14;
-    public const int PlayedResource = 15;
-    public const int Player = 16;
-    public const int PreviusZone = 17;
-    public const int Resource = 18;
-    public const int Strength = 19;
-    public const int SummoningSickness = 20;
-    public const int Tapped = 21;
-    public const int TurnCount = 22;
-    public const int TurnPhase = 23;
+    public const int DealDamage = 6;
+    public const int DealDamageTrigger = 7;
+    public const int Deck = 8;
+    public const int Draw = 9;
+    public const int Graveyard = 10;
+    public const int Hand = 11;
+    public const int Health = 12;
+    public const int ManaCost = 13;
+    public const int ManaPool = 14;
+    public const int Playable = 15;
+    public const int PlayedResource = 16;
+    public const int Player = 17;
+    public const int PreviusZone = 18;
+    public const int Resource = 19;
+    public const int Strength = 20;
+    public const int SummoningSickness = 21;
+    public const int Tapped = 22;
+    public const int TurnCount = 23;
+    public const int TurnPhase = 24;
 
-    public const int TotalComponents = 24;
+    public const int TotalComponents = 25;
 
     public static readonly string[] componentNames = {
         "ActivePlayer",
@@ -41,6 +42,7 @@ public static class ComponentIds {
         "ChangedZoneTrigger",
         "Controller",
         "Damage",
+        "DealDamage",
         "DealDamageTrigger",
         "Deck",
         "Draw",
@@ -68,6 +70,7 @@ public static class ComponentIds {
         typeof(NetherWars.ChangedZoneTriggerComponent),
         typeof(NetherWars.Controller),
         typeof(NetherWars.Damage),
+        typeof(NetherWars.DealDamage),
         typeof(NetherWars.DealDamageTriggerComponent),
         typeof(NetherWars.Deck),
         typeof(NetherWars.Draw),

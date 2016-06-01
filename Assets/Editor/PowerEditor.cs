@@ -294,7 +294,7 @@ public class PowerEditor
 
         dealDamageEffect.DamageAmount = DrawVaribalField(dealDamageEffect.DamageAmount, avalablePointers);
 
-        dealDamageEffect.TargetPlayer = DrawVaribalField(dealDamageEffect.TargetPlayer, avalablePointers);
+        dealDamageEffect.Target = DrawVaribalField(dealDamageEffect.Target, avalablePointers);
 
         EditorGUILayout.EndVertical();
     }
@@ -317,6 +317,7 @@ public class PowerEditor
             EditorGUILayout.BeginHorizontal();
 
             target.ValidTargets = (eTargetType)EditorGUILayout.EnumMaskField(title, target.ValidTargets);
+            Debug.Log(target.ValidTargets);
 
             if (GUILayout.Button("X", GUILayout.Width(25)))
             {
@@ -365,7 +366,10 @@ public class PowerEditor
                     {
                         selectedIndex = EditorGUILayout.Popup("Pointer Name", selectedIndex, avalablePointers.ToArray());
 
-                        varibal.PointerTarget = avalablePointers.ToArray()[selectedIndex];
+                        if (avalablePointers != null && avalablePointers.Count >= selectedIndex && selectedIndex > -1)
+                        {
+                            varibal.PointerTarget = avalablePointers.ToArray()[selectedIndex]; 
+                        }    
 
                         varibal.Operation = (eVaribalOperation)EditorGUILayout.EnumPopup("Pointer Operation", varibal.Operation);
                     }
