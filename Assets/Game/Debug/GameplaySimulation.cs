@@ -13,6 +13,8 @@ public class GameplaySimulation : MonoBehaviour {
 
     private Entity attackingCard;
 
+    private List<Entity> _validTargets;
+
     private string _inputString = "";
 
     private Interpertor _interpertor;
@@ -73,9 +75,31 @@ public class GameplaySimulation : MonoBehaviour {
 
             GUILayout.BeginVertical("Box");  // 3
 
+            GUILayout.BeginHorizontal();
+
             GUILayout.Label(playerEntity.player.Name + " Hand");
 
+            if (playerEntity.hasDamage)
+            {
+
+                GUILayout.Label("health: " +  "/<color=red>" + GameplayActions.GetHealth(playerEntity) + "</color>");
+            }
+            else
+            {
+                GUILayout.Label("Health: "  + GameplayActions.GetHealth(playerEntity));
+            }
+
             GUILayout.Label("Mana: " + playerEntity.manaPool.CurrentMana + "/" + playerEntity.manaPool.MaxMana);
+
+            if (_validTargets != null && _validTargets.Contains(playerEntity))
+            {
+                if (GUILayout.Button("Target"))
+                {
+                    SelectAttackingTarget(playerEntity);
+                }
+            }
+
+            GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal(); // 4
 
@@ -143,12 +167,12 @@ public class GameplaySimulation : MonoBehaviour {
 
                     if (cardsInBattlefield[i].hasDamage)
                     {
-
-                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/<color=red>" + (cardsInBattlefield[i].health.Value - cardsInBattlefield[i].damage.Value + "</color>"));
+                        
+                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/<color=red>" + GameplayActions.GetHealth(cardsInBattlefield[i]) + "</color>");
                     }
                     else
                     {
-                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + cardsInBattlefield[i].health.Value);
+                        GUILayout.Label(cardsInBattlefield[i].strength.Value + "/" + GameplayActions.GetHealth(cardsInBattlefield[i]));
                     }
 
                     
@@ -163,18 +187,16 @@ public class GameplaySimulation : MonoBehaviour {
                             }
                         }
                     }
-                    else
+
+                    if (_validTargets != null && _validTargets.Contains(cardsInBattlefield[i]))
                     {
-                        if (isSelectingTarget)
+                        if (GUILayout.Button("Target"))
                         {
-                            if (GUILayout.Button("Target"))
-                            {
-                                SelectAttackingTarget(cardsInBattlefield[i]);
-                            }
+                            SelectAttackingTarget(cardsInBattlefield[i]);
                         }
                     }
-                   
-                    
+
+
                     GUILayout.EndVertical();
 
                 }
@@ -248,6 +270,8 @@ public class GameplaySimulation : MonoBehaviour {
         {
             attackingCard = card;
             isSelectingTarget = true;
+
+            _validTargets = GameplayActions.GeValidTargetsForAttacking(attackingCard);
         }
         else
         {
@@ -266,29 +290,38 @@ public class GameplaySimulation : MonoBehaviour {
     {
         Debug.Log(attacker + " attacks " + target);
 
-        if (target.hasDealDamage)
+        if (attacker.hasStrength)
         {
-            target.ReplaceDealDamage(attacker.strength.Value, true, attacker);
+            if (target.hasDealDamage)
+            {
+                target.ReplaceDealDamage(attacker.strength.Value, true, attacker);
+            }
+            else
+            {
+                target.AddDealDamage(attacker.strength.Value, true, attacker);
+            }
         }
-        else
-        {
-            target.AddDealDamage(attacker.strength.Value, true, attacker);
-        }
+       
 
-
-        if (attacker.hasDamage)
+        if (target.hasStrength)
         {
-            attacker.ReplaceDealDamage(target.strength.Value, true, target);
+            if (attacker.hasDamage)
+            {
+                attacker.ReplaceDealDamage(target.strength.Value, true, target);
+            }
+            else
+            {
+                attacker.AddDealDamage(target.strength.Value, true, target);
+            }
         }
-        else
-        {
-            attacker.AddDealDamage(target.strength.Value, true, target);
-        }
+       
 
 
         attacker.isTapped = true;
 
         attackingCard = null;
+
+        _validTargets.Clear();
     }
 
     #endregion

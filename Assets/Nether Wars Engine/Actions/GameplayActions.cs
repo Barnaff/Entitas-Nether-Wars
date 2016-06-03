@@ -12,38 +12,70 @@ namespace NetherWars
 
         public static void  RunTargetTest()
         {
-            /*
-            This = 0x0001,
-        ThisController = 0x0002,
-        FriendlyCreature = 0x0004,
-        EnemyCreature = 0x0008,
-        EnemyPlayer = 0x0010,
-        Friendly = (FriendlyCreature | ThisController),
-        AnyPlayer = (ThisController | EnemyPlayer),
-        AnyCreature = (EnemyCreature | FriendlyCreature),
-        Enemy = (EnemyCreature | EnemyPlayer),
-        Any = (Friendly | Enemy)
-        */
             System.Array values = System.Enum.GetValues(typeof(eTargetType));
             for (int i=0; i< values.Length; i++)
             {
                 for (int j=0; j < values.Length; j++)
                 {
                     bool res = ((eTargetType)values.GetValue(i) & (eTargetType)values.GetValue(j)) != 0;
-
-                  //  Debug.Log("checking : " + (eTargetType)values.GetValue(i) + " and " + (eTargetType)values.GetValue(j) + " >>> " + res);
-
                 }
                 eTargetType b = (eTargetType)13;
                 bool res2 = ((eTargetType)values.GetValue(i) & b) != 0;
 
                 Debug.Log(" +++ checking : " + (eTargetType)values.GetValue(i) + " and " + b + " >>> " + res2);
             }
+        }
 
+        public static int GetHealth(Entity entity)
+        {
+            int health = 0;
+            if (entity.hasHealth)
+            {
+                health = entity.health.Value;
+            }
+
+            if (entity.hasDamage)
+            {
+                health -= entity.damage.Value;
+            }
+
+            return health;
+        }
+
+        public static List<Entity> GeValidTargetsForAttacking(Entity attacker)
+        {
+            int controllerId = -1;
+            if (attacker.hasController)
+            {
+                controllerId = attacker.controller.Id;
+            }
+            else if (attacker.hasPlayer)
+            {
+                controllerId = attacker.player.Id;
+            }
+
+            List<Entity> validTargets = new List<Entity>();
+
+            Entity[] entities = Pools.pool.GetGroup(Matcher.AnyOf(Matcher.Battlefield, Matcher.Player)).GetEntities();
+
+            foreach (Entity entity in entities)
+            {
+                if (entity.hasCard && entity.controller.Id != controllerId)
+                {
+                    validTargets.Add(entity);
+                }
+                else if (entity.hasPlayer && entity.player.Id != controllerId)
+                {
+                    validTargets.Add(entity);
+                }
+            }
+
+            return validTargets;
         }
 
         public static void ExecuteEffect(EffectAbstract effect, Dictionary<string, object> pointers)
         {
+            Logger.LogEvent("Execute Event : " + effect);
             if (effect is DrawCardEffect)
             {
                 DrawCardEffect drawCardEffect = effect as DrawCardEffect;
@@ -64,11 +96,24 @@ namespace NetherWars
 
                 Entity target = GetVaribalValue<Entity>(dealDamageEffect.Target, pointers);
 
+                Entity attacker = null;
+                if (pointers.ContainsKey("attacker"))
+                {
+                    attacker = pointers["attacker"] as Entity;
+                }
+               
                 int damageAmount = (int)GetVaribalValue<object>(dealDamageEffect.DamageAmount, pointers);
 
                 if (damageAmount > 0)
                 {
-                    target.AddDamage(damageAmount);
+                    if (target.hasDealDamage)
+                    {
+                        target.ReplaceDealDamage(damageAmount, false, attacker);
+                    }
+                    else
+                    {
+                        target.AddDealDamage(damageAmount, false, attacker);
+                    }
                 }
             }
         }
@@ -141,54 +186,41 @@ namespace NetherWars
             {
                 return CheckTargetFlags(target.ValidTargets, eTargetType.This);
             }
-            else if (entity.hasCard)
+
+
+            int controllerId = -1;
+            if (matchedEntity.hasPlayer)
             {
-                if (matchedEntity.hasCard)
+                controllerId = matchedEntity.player.Id;
+            }
+            else if (matchedEntity.hasController)
+            {
+                controllerId =  matchedEntity.controller.Id;
+            }
+
+
+            if (entity.hasPlayer)
+            {
+                // is player
+                if (entity.player.Id == controllerId)
                 {
-                    if (entity.controller.Id == matchedEntity.controller.Id)
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.FriendlyCreature);
-                    }
-                    else
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyCreature);
-                    }
+                    return CheckTargetFlags(target.ValidTargets, eTargetType.ThisController);
                 }
-                else if (matchedEntity.hasPlayer)
+                else
                 {
-                    if (entity.controller.Id == matchedEntity.player.Id)
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.ThisController);
-                    }
-                    else
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyPlayer);
-                    }
+                    return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyPlayer);
                 }
             }
-            else if (entity.hasPlayer)
+            else if (entity.hasController)
             {
-                if (matchedEntity.hasCard)
+                // is creature
+                if (entity.controller.Id == controllerId)
                 {
-                    if (entity.player.Id == matchedEntity.controller.Id)
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.FriendlyCreature);
-                    }
-                    else
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyCreature);
-                    }
+                    return CheckTargetFlags(target.ValidTargets, eTargetType.FriendlyCreature);
                 }
-                else if (matchedEntity.hasPlayer)
+                else
                 {
-                    if (entity.player.Id == matchedEntity.player.Id)
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.ThisController);
-                    }
-                    else
-                    {
-                        return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyPlayer);
-                    }
+                    return CheckTargetFlags(target.ValidTargets, eTargetType.EnemyCreature);
                 }
             }
 
@@ -197,6 +229,8 @@ namespace NetherWars
 
         private static bool CheckTargetFlags(eTargetType flags, eTargetType target)
         {
+            Debug.Log("Match: flags: " + flags + " >>>> target: " + target);
+
             return (flags & target) != 0;
         }
 
