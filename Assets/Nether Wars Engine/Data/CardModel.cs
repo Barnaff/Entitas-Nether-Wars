@@ -28,9 +28,9 @@ namespace NetherWars.Data
 
         public int Health;
 
-        //public System.Collections.Generic.List<string> Powers;
-
         public string Description;
+
+        public List<eKeywardType> Keywords;
 
         public List<Power> Powers;
        

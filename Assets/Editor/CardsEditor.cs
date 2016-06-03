@@ -122,48 +122,53 @@ public class CardsEditor : EditorWindow{
             }
 
 
-            /*
-            EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
+            EditorGUILayout.BeginVertical("Box", GUILayout.Width(600));
 
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.LabelField("Powers");
+            EditorGUILayout.LabelField("Key Words", EditorStyles.boldLabel);
 
             if (GUILayout.Button("+", GUILayout.Width(25)))
             {
-                _selectedCard.Powers.Add("");
+                if (_selectedCard.Keywords == null)
+                {
+                    _selectedCard.Keywords = new List<eKeywardType>();
+                }
+
+                _selectedCard.Keywords.Add(eKeywardType.None);
             }
 
             EditorGUILayout.EndHorizontal();
 
-            if (_selectedCard.Powers != null)
+            EditorGUILayout.BeginHorizontal();
+
+            for (int i=0; i< _selectedCard.Keywords.Count; i++)
             {
-                for (int i = 0; i < _selectedCard.Powers.Count; i++)
+                if (i % 3 == 0)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    _selectedCard.Powers[i] = EditorGUILayout.TextArea(_selectedCard.Powers[i], GUILayout.Height(50));
-                    if (GUILayout.Button("X", GUILayout.Width(25), GUILayout.Height(50)))
-                    {
-                        _selectedCard.Powers.RemoveAt(i);
-                        EditorGUILayout.EndHorizontal();
-                        break;
-                    }
                     EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal();
                 }
+
+                EditorGUILayout.BeginHorizontal("Box", GUILayout.Width(175));
+                _selectedCard.Keywords[i] = (eKeywardType)EditorGUILayout.EnumPopup(_selectedCard.Keywords[i]);
+                if (GUILayout.Button("X", GUILayout.Width(25)))
+                {
+                    _selectedCard.Keywords.RemoveAt(i);
+                    EditorGUILayout.EndHorizontal();
+                  
+                    break;
+                }
+                EditorGUILayout.EndHorizontal();
+
+               
             }
-           
+
+            EditorGUILayout.EndHorizontal();
+
 
             EditorGUILayout.EndVertical();
 
-
-            EditorGUILayout.BeginVertical("Box", GUILayout.Width(400));
-
-            EditorGUILayout.LabelField("Description Text");
-
-            _selectedCard.Description =  EditorGUILayout.TextArea(_selectedCard.Description, GUILayout.Height(50));
-
-            EditorGUILayout.EndVertical();
-            */
 
             PowersListPanel(_selectedCard);
 
@@ -220,6 +225,7 @@ public class CardsEditor : EditorWindow{
         }
         EditorGUILayout.EndVertical();
     }
+
 
 
 
