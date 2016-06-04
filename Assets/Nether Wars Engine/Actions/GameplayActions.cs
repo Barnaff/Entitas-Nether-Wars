@@ -55,6 +55,7 @@ namespace NetherWars
             }
 
             List<Entity> validTargets = new List<Entity>();
+            List<Entity> valitTauntTargets = new List<Entity>();
 
             Entity[] entities = Pools.pool.GetGroup(Matcher.AnyOf(Matcher.Battlefield, Matcher.Player)).GetEntities();
 
@@ -63,11 +64,20 @@ namespace NetherWars
                 if (entity.hasCard && entity.controller.Id != controllerId)
                 {
                     validTargets.Add(entity);
+                    if (entity.isTaunt)
+                    {
+                        valitTauntTargets.Add(entity);
+                    }
                 }
                 else if (entity.hasPlayer && entity.player.Id != controllerId)
                 {
                     validTargets.Add(entity);
                 }
+            }
+
+            if (valitTauntTargets.Count > 0)
+            {
+                return valitTauntTargets;
             }
 
             return validTargets;

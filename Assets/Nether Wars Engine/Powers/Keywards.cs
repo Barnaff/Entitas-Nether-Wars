@@ -6,8 +6,7 @@ namespace NetherWars.Powers
     {
         None,
         Haste,
-        Defender,
-        Blocker,
+        Taunt,
     }
 
    

@@ -142,27 +142,29 @@ public class CardsEditor : EditorWindow{
 
             EditorGUILayout.BeginHorizontal();
 
-            for (int i=0; i< _selectedCard.Keywords.Count; i++)
+            if (_selectedCard.Keywords != null)
             {
-                if (i % 3 == 0)
+                for (int i = 0; i < _selectedCard.Keywords.Count; i++)
                 {
-                    EditorGUILayout.EndHorizontal();
-                    EditorGUILayout.BeginHorizontal();
-                }
+                    if (i % 3 == 0)
+                    {
+                        EditorGUILayout.EndHorizontal();
+                        EditorGUILayout.BeginHorizontal();
+                    }
 
-                EditorGUILayout.BeginHorizontal("Box", GUILayout.Width(175));
-                _selectedCard.Keywords[i] = (eKeywardType)EditorGUILayout.EnumPopup(_selectedCard.Keywords[i]);
-                if (GUILayout.Button("X", GUILayout.Width(25)))
-                {
-                    _selectedCard.Keywords.RemoveAt(i);
-                    EditorGUILayout.EndHorizontal();
-                  
-                    break;
-                }
-                EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.BeginHorizontal("Box", GUILayout.Width(175));
+                    _selectedCard.Keywords[i] = (eKeywardType)EditorGUILayout.EnumPopup(_selectedCard.Keywords[i]);
+                    if (GUILayout.Button("X", GUILayout.Width(25)))
+                    {
+                        _selectedCard.Keywords.RemoveAt(i);
+                        EditorGUILayout.EndHorizontal();
 
-               
+                        break;
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
             }
+           
 
             EditorGUILayout.EndHorizontal();
 

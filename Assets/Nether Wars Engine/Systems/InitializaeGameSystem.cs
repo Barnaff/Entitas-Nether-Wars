@@ -114,6 +114,29 @@ namespace NetherWars
                     }
             }
 
+            if (cardModel.Keywords != null)
+            {
+                foreach (eKeywardType keyward in cardModel.Keywords)
+                {
+                    switch (keyward)
+                    {
+                        case eKeywardType.Haste:
+                            {
+                                card.isHaste = true;
+                                break;
+                            }
+                        case eKeywardType.Taunt:
+                            {
+                                card.isTaunt = true;
+                                break;
+                            }
+                        default:
+                            {
+                                break;
+                            }
+                    }
+                }
+            }
 
 			if (cardModel.Powers != null)
 			{

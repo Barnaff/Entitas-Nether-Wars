@@ -26,7 +26,11 @@ namespace NetherWars
                 {
                     Logger.LogEvent("Entered the battlefield: " + entity.ToString());
 
-                    entity.isSummoningSickness = true;
+                    if (!entity.isHaste)
+                    {
+                        entity.isSummoningSickness = true;
+                    }
+                  
                 }
                 else
                 {

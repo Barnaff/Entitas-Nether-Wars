@@ -19,21 +19,23 @@ public static class ComponentIds {
     public const int Draw = 9;
     public const int Graveyard = 10;
     public const int Hand = 11;
-    public const int Health = 12;
-    public const int ManaCost = 13;
-    public const int ManaPool = 14;
-    public const int Playable = 15;
-    public const int PlayedResource = 16;
-    public const int Player = 17;
-    public const int PreviusZone = 18;
-    public const int Resource = 19;
-    public const int Strength = 20;
-    public const int SummoningSickness = 21;
-    public const int Tapped = 22;
-    public const int TurnCount = 23;
-    public const int TurnPhase = 24;
+    public const int Haste = 12;
+    public const int Health = 13;
+    public const int ManaCost = 14;
+    public const int ManaPool = 15;
+    public const int Playable = 16;
+    public const int PlayedResource = 17;
+    public const int Player = 18;
+    public const int PreviusZone = 19;
+    public const int Resource = 20;
+    public const int Strength = 21;
+    public const int SummoningSickness = 22;
+    public const int Tapped = 23;
+    public const int Taunt = 24;
+    public const int TurnCount = 25;
+    public const int TurnPhase = 26;
 
-    public const int TotalComponents = 25;
+    public const int TotalComponents = 27;
 
     public static readonly string[] componentNames = {
         "ActivePlayer",
@@ -48,6 +50,7 @@ public static class ComponentIds {
         "Draw",
         "Graveyard",
         "Hand",
+        "Haste",
         "Health",
         "ManaCost",
         "ManaPool",
@@ -59,6 +62,7 @@ public static class ComponentIds {
         "Strength",
         "SummoningSickness",
         "Tapped",
+        "Taunt",
         "TurnCount",
         "TurnPhase"
     };
@@ -76,6 +80,7 @@ public static class ComponentIds {
         typeof(NetherWars.Draw),
         typeof(NetherWars.Graveyard),
         typeof(NetherWars.Hand),
+        typeof(NetherWars.Haste),
         typeof(NetherWars.Health),
         typeof(NetherWars.ManaCost),
         typeof(NetherWars.ManaPool),
@@ -87,6 +92,7 @@ public static class ComponentIds {
         typeof(NetherWars.Strength),
         typeof(NetherWars.SummoningSickness),
         typeof(NetherWars.Tapped),
+        typeof(NetherWars.Taunt),
         typeof(NetherWars.TurnCount),
         typeof(NetherWars.TurnPhase)
     };

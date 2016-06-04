@@ -46,6 +46,7 @@ public class GameplaySimulation : MonoBehaviour {
             {
                 isSelectingTarget = false;
                 attackingCard = null;
+                _validTargets.Clear();
             }
         }
         else
