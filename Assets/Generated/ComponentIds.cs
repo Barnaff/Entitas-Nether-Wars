@@ -11,37 +11,40 @@ public static class ComponentIds {
     public const int Battlefield = 1;
     public const int Card = 2;
     public const int ChangedZoneTrigger = 3;
-    public const int Controller = 4;
-    public const int Damage = 5;
-    public const int DealDamage = 6;
-    public const int DealDamageTrigger = 7;
-    public const int Deck = 8;
-    public const int Draw = 9;
-    public const int Graveyard = 10;
-    public const int Hand = 11;
-    public const int Haste = 12;
-    public const int Health = 13;
-    public const int ManaCost = 14;
-    public const int ManaPool = 15;
-    public const int Playable = 16;
-    public const int PlayedResource = 17;
-    public const int Player = 18;
-    public const int PreviusZone = 19;
-    public const int Resource = 20;
-    public const int Strength = 21;
-    public const int SummoningSickness = 22;
-    public const int Tapped = 23;
-    public const int Taunt = 24;
-    public const int TurnCount = 25;
-    public const int TurnPhase = 26;
+    public const int ColorIdentity = 4;
+    public const int Controller = 5;
+    public const int Damage = 6;
+    public const int DealDamage = 7;
+    public const int DealDamageTrigger = 8;
+    public const int Deck = 9;
+    public const int Draw = 10;
+    public const int Graveyard = 11;
+    public const int Hand = 12;
+    public const int Haste = 13;
+    public const int Health = 14;
+    public const int ManaCost = 15;
+    public const int ManaPool = 16;
+    public const int Playable = 17;
+    public const int PlayedResource = 18;
+    public const int Player = 19;
+    public const int PreviusZone = 20;
+    public const int Resource = 21;
+    public const int ResourceGeneration = 22;
+    public const int Strength = 23;
+    public const int SummoningSickness = 24;
+    public const int Tapped = 25;
+    public const int Taunt = 26;
+    public const int TurnCount = 27;
+    public const int TurnPhase = 28;
 
-    public const int TotalComponents = 27;
+    public const int TotalComponents = 29;
 
     public static readonly string[] componentNames = {
         "ActivePlayer",
         "Battlefield",
         "Card",
         "ChangedZoneTrigger",
+        "ColorIdentity",
         "Controller",
         "Damage",
         "DealDamage",
@@ -59,6 +62,7 @@ public static class ComponentIds {
         "Player",
         "PreviusZone",
         "Resource",
+        "ResourceGeneration",
         "Strength",
         "SummoningSickness",
         "Tapped",
@@ -72,6 +76,7 @@ public static class ComponentIds {
         typeof(NetherWars.Battlefield),
         typeof(NetherWars.Card),
         typeof(NetherWars.ChangedZoneTriggerComponent),
+        typeof(NetherWars.ColorIdentity),
         typeof(NetherWars.Controller),
         typeof(NetherWars.Damage),
         typeof(NetherWars.DealDamage),
@@ -89,6 +94,7 @@ public static class ComponentIds {
         typeof(NetherWars.Player),
         typeof(NetherWars.PreviusZone),
         typeof(NetherWars.Resource),
+        typeof(NetherWars.ResourceGeneration),
         typeof(NetherWars.Strength),
         typeof(NetherWars.SummoningSickness),
         typeof(NetherWars.Tapped),

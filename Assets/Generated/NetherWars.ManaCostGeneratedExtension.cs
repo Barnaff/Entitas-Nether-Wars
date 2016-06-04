@@ -12,15 +12,17 @@ namespace Entitas {
 
         public bool hasManaCost { get { return HasComponent(ComponentIds.ManaCost); } }
 
-        public Entity AddManaCost(int newValue) {
+        public Entity AddManaCost(int newValue, System.Collections.Generic.Dictionary<NetherWars.eColorType, int> newThrashold) {
             var component = CreateComponent<NetherWars.ManaCost>(ComponentIds.ManaCost);
             component.Value = newValue;
+            component.Thrashold = newThrashold;
             return AddComponent(ComponentIds.ManaCost, component);
         }
 
-        public Entity ReplaceManaCost(int newValue) {
+        public Entity ReplaceManaCost(int newValue, System.Collections.Generic.Dictionary<NetherWars.eColorType, int> newThrashold) {
             var component = CreateComponent<NetherWars.ManaCost>(ComponentIds.ManaCost);
             component.Value = newValue;
+            component.Thrashold = newThrashold;
             ReplaceComponent(ComponentIds.ManaCost, component);
             return this;
         }

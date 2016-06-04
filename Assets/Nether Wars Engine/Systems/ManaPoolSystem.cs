@@ -9,6 +9,8 @@ namespace NetherWars
         private Pool _pool;
         private Group _group;
 
+        private Dictionary<int, Entity> _players;
+
         public TriggerOnEvent trigger
         {
             get
