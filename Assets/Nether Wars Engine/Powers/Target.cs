@@ -10,11 +10,6 @@ namespace NetherWars.Powers
         FriendlyCreature    = 1 << 2,
         EnemyCreature       = 1 << 3,
         EnemyPlayer         = 1 << 4,
-     //   Friendly            = (FriendlyCreature | ThisController),
-     //   AnyPlayer           = (ThisController | EnemyPlayer),
-     //   AnyCreature         = (EnemyCreature | FriendlyCreature),
-     //   Enemy               = (EnemyCreature | EnemyPlayer),
-     //   Any                 = (This | Friendly | Enemy)
     }
 
 

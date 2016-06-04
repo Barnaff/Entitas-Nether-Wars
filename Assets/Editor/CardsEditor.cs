@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using NetherWars;
 using NetherWars.Data;
 using NetherWars.Powers;
 using System.Collections.Generic;
@@ -94,9 +95,111 @@ public class CardsEditor : EditorWindow{
 
             _selectedCard.CardName = EditorGUILayout.TextField("Card Name", _selectedCard.CardName, GUILayout.Width(350));
 
-            _selectedCard.ManaCost = EditorGUILayout.TextField("Mana Cost", _selectedCard.ManaCost, GUILayout.Width(250));
+            EditorGUILayout.BeginVertical("Box", GUILayout.Width(600));
 
-            _selectedCard.ConvertedManaCost = EditorGUILayout.IntField("Converted Mana Cost", _selectedCard.ConvertedManaCost, GUILayout.Width(200));
+            EditorGUILayout.LabelField("Mana and Colors", EditorStyles.boldLabel);
+
+            EditorGUILayout.BeginHorizontal();
+
+            _selectedCard.ConvertedManaCost = EditorGUILayout.IntField("Mana Cost", _selectedCard.ConvertedManaCost, GUILayout.Width(200));
+
+            _selectedCard.Colors = (eColorType)EditorGUILayout.EnumMaskField("Colors", _selectedCard.Colors);
+
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginVertical("Box");
+
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.LabelField("Thrashold", EditorStyles.boldLabel);
+
+            if (GUILayout.Button("+", GUILayout.Width(25)))
+            {
+                if (_selectedCard.Thrashold == null)
+                {
+                    _selectedCard.Thrashold = new Dictionary<eColorType, int>();
+                }
+
+                eColorType newColor = eColorType.Black;
+
+                System.Array colorValues = System.Enum.GetValues(typeof(eColorType));
+                for (int i = 0; i < colorValues.Length; i++)
+                {
+                    newColor = (eColorType)colorValues.GetValue(i);
+
+                    if (!_selectedCard.Thrashold.ContainsKey(newColor))
+                    {
+                        break;
+                    }
+                }
+
+                if (!_selectedCard.Thrashold.ContainsKey(newColor))
+                {
+                    _selectedCard.Thrashold.Add(newColor, 0);
+                }            
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginVertical();
+
+            if (_selectedCard.Thrashold != null)
+            {
+                List<eColorType> keys = new List<eColorType>();
+                foreach (eColorType colorKey in _selectedCard.Thrashold.Keys)
+                {
+                    keys.Add(colorKey);
+                }
+
+                foreach (eColorType colorKey in keys)
+                {
+                    EditorGUILayout.BeginHorizontal("Box");
+ 
+                    eColorType color = colorKey;
+                    color = (eColorType)EditorGUILayout.EnumPopup("Color", color);
+
+                    int amount = _selectedCard.Thrashold[colorKey];
+                    amount = EditorGUILayout.IntField("Amount", amount);
+
+                    _selectedCard.Thrashold[colorKey] = amount;
+
+                    if (GUILayout.Button("X", GUILayout.Width(25)))
+                    {
+                        _selectedCard.Thrashold.Remove(colorKey);
+                        EditorGUILayout.EndHorizontal();
+                        break;
+                    }
+
+                    if (color != colorKey)
+                    {
+                        if (_selectedCard.Thrashold.ContainsKey(color))
+                        {
+                            _selectedCard.Thrashold[color] = _selectedCard.Thrashold[colorKey];
+                        }
+                        else
+                        {
+                            _selectedCard.Thrashold.Add(color, _selectedCard.Thrashold[colorKey]);
+                        }
+                        _selectedCard.Thrashold.Remove(colorKey);
+                        EditorGUILayout.EndHorizontal();
+                        break;
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+
+            EditorGUILayout.EndVertical();
+            
+
+         
+
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUILayout.EndVertical();
+
+                       
 
             _selectedCard.CardType = (eCardType)EditorGUILayout.EnumPopup("Card Type", _selectedCard.CardType, GUILayout.Width(350));
 

@@ -3,13 +3,7 @@ using NetherWars.Powers;
 
 namespace NetherWars.Data
 {
-    [System.Serializable]
-    public enum eCardType
-    {
-        Creature,
-        Spell,
-        Artifact,
-    }
+
 
     [System.Serializable]
     public class CardModel
@@ -19,6 +13,10 @@ namespace NetherWars.Data
         public string CardName;
 
         public string ManaCost;
+
+        public eColorType Colors;
+
+        public Dictionary<eColorType, int> Thrashold;
 
         public int ConvertedManaCost;
 

@@ -317,7 +317,6 @@ public class PowerEditor
             EditorGUILayout.BeginHorizontal();
 
             target.ValidTargets = (eTargetType)EditorGUILayout.EnumMaskField(title, target.ValidTargets);
-            Debug.Log(target.ValidTargets);
 
             if (GUILayout.Button("X", GUILayout.Width(25)))
             {
