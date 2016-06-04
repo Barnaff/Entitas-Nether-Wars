@@ -12,13 +12,11 @@ namespace NetherWars.Data
 
         public string CardName;
 
-        public string ManaCost;
-
         public eColorType Colors;
 
         public Dictionary<eColorType, int> Thrashold;
 
-        public int ConvertedManaCost;
+        public int ManaCost;
 
         public eCardType CardType;
 

@@ -95,7 +95,7 @@ namespace NetherWars
 
             card.AddController(controllerId);
 
-            card.AddManaCost(cardModel.ConvertedManaCost);
+            card.AddManaCost(cardModel.ManaCost);
 
             card.IsDeck(true);
 

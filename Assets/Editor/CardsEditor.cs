@@ -101,7 +101,7 @@ public class CardsEditor : EditorWindow{
 
             EditorGUILayout.BeginHorizontal();
 
-            _selectedCard.ConvertedManaCost = EditorGUILayout.IntField("Mana Cost", _selectedCard.ConvertedManaCost, GUILayout.Width(200));
+            _selectedCard.ManaCost = EditorGUILayout.IntField("Mana Cost", _selectedCard.ManaCost, GUILayout.Width(200));
 
             _selectedCard.Colors = (eColorType)EditorGUILayout.EnumMaskField("Colors", _selectedCard.Colors);
 
