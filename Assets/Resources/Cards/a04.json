@@ -1,1 +1,1 @@
-{"CardId":"a04","CardName":"Shield Bearer","Colors":16,"Thrashold":{"White":1},"ManaCost":2,"CardType":0,"Strength":1,"Health":3,"Description":null,"Keywords":[2],"Powers":[]}
+{"CardId":"a04","CardName":"Shield Bearer","ColorIdentity":16,"ColorsGeneration":16,"Thrashold":{"White":1},"ManaCost":2,"ResourceGeneration":1,"CardType":0,"Strength":1,"Health":3,"Description":null,"Keywords":[2],"Powers":[]}

@@ -101,9 +101,9 @@ public class CardsEditor : EditorWindow{
 
             EditorGUILayout.BeginHorizontal();
 
-            _selectedCard.ManaCost = EditorGUILayout.IntField("Mana Cost", _selectedCard.ManaCost, GUILayout.Width(200));
+            _selectedCard.ManaCost = EditorGUILayout.IntField("Mana Cost", _selectedCard.ManaCost, GUILayout.Width(250));
 
-            _selectedCard.Colors = (eColorType)EditorGUILayout.EnumMaskField("Colors", _selectedCard.Colors);
+            _selectedCard.ColorIdentity = (eColorType)EditorGUILayout.EnumMaskField("Colors", _selectedCard.ColorIdentity);
 
             EditorGUILayout.EndHorizontal();
 
@@ -197,9 +197,20 @@ public class CardsEditor : EditorWindow{
 
             EditorGUILayout.EndVertical();
 
+
+            EditorGUILayout.BeginHorizontal("Box");
+
+            _selectedCard.ResourceGeneration = EditorGUILayout.IntField("Resource Generation", _selectedCard.ResourceGeneration, GUILayout.Width(250));
+
+            _selectedCard.ColorsGeneration = (eColorType)EditorGUILayout.EnumMaskField("Colors Generation", _selectedCard.ColorsGeneration);
+
+            EditorGUILayout.EndHorizontal();
+
+
             EditorGUILayout.EndVertical();
 
-                       
+
+           
 
             _selectedCard.CardType = (eCardType)EditorGUILayout.EnumPopup("Card Type", _selectedCard.CardType, GUILayout.Width(350));
 

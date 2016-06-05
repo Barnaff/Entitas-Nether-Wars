@@ -1,1 +1,1 @@
-{"CardId":"a03","CardName":"Goblin","Colors":4,"Thrashold":{"Red":1},"ManaCost":1,"CardType":0,"Strength":1,"Health":1,"Description":null,"Keywords":[1],"Powers":[]}
+{"CardId":"a03","CardName":"Goblin","ColorIdentity":4,"ColorsGeneration":4,"Thrashold":{"Red":1},"ManaCost":1,"ResourceGeneration":1,"CardType":0,"Strength":1,"Health":1,"Description":null,"Keywords":[1],"Powers":[]}

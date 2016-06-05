@@ -95,11 +95,14 @@ namespace NetherWars
 
             card.AddController(controllerId);
 
-            card.AddColorIdentity(cardModel.Colors);
+            card.AddColorIdentity(cardModel.ColorIdentity);
 
             card.AddManaCost(cardModel.ManaCost, cardModel.Thrashold);
 
-            card.AddResourceGeneration(1);
+            if (cardModel.ResourceGeneration > 0)
+            {
+                card.AddResourceGeneration(cardModel.ResourceGeneration);
+            }
 
             card.IsDeck(true);
 

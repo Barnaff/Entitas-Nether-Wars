@@ -1,1 +1,1 @@
-{"CardId":"a01","CardName":"Zombie","Colors":1,"Thrashold":{"Black":2},"ManaCost":2,"CardType":0,"Strength":2,"Health":2,"Description":null,"Keywords":null,"Powers":[]}
+{"CardId":"a01","CardName":"Zombie","ColorIdentity":1,"ColorsGeneration":1,"Thrashold":{"Black":2},"ManaCost":2,"ResourceGeneration":1,"CardType":0,"Strength":2,"Health":2,"Description":null,"Keywords":null,"Powers":[]}

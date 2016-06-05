@@ -7,9 +7,8 @@ namespace NetherWars
     public class ManaPoolSystem : ISetPool, IReactiveSystem
     {
         private Pool _pool;
-        private Group _group;
+        private Group _manapoolGroup;
 
-        private Dictionary<int, Entity> _players;
 
         public TriggerOnEvent trigger
         {
@@ -24,22 +23,42 @@ namespace NetherWars
         {
             _pool = pool;
 
-            _group = _pool.GetGroup(Matcher.ManaPool);
+            _manapoolGroup = _pool.GetGroup(Matcher.ManaPool);
+
         }
 
         public void Execute(List<Entity> entities)
         {
             foreach (Entity entity in entities)
             {
-                Logger.LogEvent("Card played as resource: " + entity.ToString());
-
-                foreach (Entity playerEntity in _group.GetEntities())
+                if (entity.isResource)
                 {
-                    if (playerEntity.player.Id == entity.controller.Id)
+                    Logger.LogEvent("Card played as resource: " + entity.ToString());
+
+                    foreach (Entity playerEntity in _manapoolGroup.GetEntities())
                     {
-                        playerEntity.ReplaceManaPool(playerEntity.manaPool.CurrentMana + 1, playerEntity.manaPool.MaxMana + 1);
+                        if (playerEntity.player.Id == entity.controller.Id && entity.hasResourceGeneration)
+                        {
+                            int resourceGenerationAmount = entity.resourceGeneration.Amount;
+                            playerEntity.ReplaceManaPool(playerEntity.manaPool.CurrentMana + resourceGenerationAmount, playerEntity.manaPool.MaxMana + resourceGenerationAmount);
+                        }
                     }
                 }
+                else
+                {
+                    Logger.LogEvent("Card removed from resource: " + entity.ToString());
+
+                    foreach (Entity playerEntity in _manapoolGroup.GetEntities())
+                    {
+                        if (playerEntity.player.Id == entity.controller.Id && entity.hasResourceGeneration)
+                        {
+                            int resourceGenerationAmount = entity.resourceGeneration.Amount;
+                            playerEntity.ReplaceManaPool(playerEntity.manaPool.CurrentMana, playerEntity.manaPool.MaxMana - resourceGenerationAmount);
+                        }
+                    }
+
+                }
+              
             }
         }
     }
